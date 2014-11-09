@@ -15,6 +15,10 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 		When we call "connectors" method on Forkforge::Punctuation
 		Then we print a result
 	
+	Scenario: Get all connectors with their names
+		When we call "connectors_character_name" method on Forkforge::Punctuation
+		Then we print a result
+	
 	Scenario: Get all specific punctuation: dashes
 		When we call "dashes" method on Forkforge::Punctuation
 		Then we print a result

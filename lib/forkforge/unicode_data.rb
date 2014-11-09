@@ -84,7 +84,7 @@ module Forkforge
     UNICODE_FIELDS.each { |method|
       class_eval %Q{
         def get_#{method} cp
-          hash[normalize_cp cp][#{method}]
+          hash[normalize_cp cp][:#{method}]
         end
         def all_#{method} pattern = nil
           hash.select { |k, v| pattern.nil? ? !v[:#{method}].vacant? : !pattern.match(v[:#{method}]).nil? }

@@ -35,15 +35,15 @@ module Forkforge
           s.respond_to?(:scan) ? s.scan(Regexp.new(@@#{type.last}_array.join '|')) : @@#{type.last}_array
         end
       }
-      TYPES.each { |type|
-        UnicodeData::UNICODE_FIELDS.each { |method|
-          class_eval %Q{
-            def #{type.last}_#{method}
-              @@#{type.last}_#{method} ||= #{type.last}_raw.map { |k, v| 
-                [ Forkforge::UnicodeData::to_char(k), Forkforge::UnicodeData::get_#{method} ]
-              }.to_h
-            end
-          }
+    }
+    TYPES.each { |type|
+      UnicodeData::UNICODE_FIELDS.each { |method|
+        class_eval %Q{
+          def #{type.last}_#{method}
+            @@#{type.last}_#{method} ||= #{type.last}_raw.map { |k, v| 
+              [ Forkforge::UnicodeData::to_char(k), Forkforge::UnicodeData::get_#{method}(k) ]
+            }.to_h
+          end
         }
       }
     }
