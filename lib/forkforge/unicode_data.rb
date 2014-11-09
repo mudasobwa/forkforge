@@ -73,6 +73,14 @@ module Forkforge
     end
     private :normalize_cp
         
+    def info s
+      case s
+      when String then s.each_codepoint.map { |cp| UnicodeData::hash[normalize_cp cp] }
+      when Integer then [UnicodeData::hash[normalize_cp s]]
+      else nil
+      end
+    end
+
     # TODO return true/false whether the normalization was done?
     def to_char cp, action = :origin
       result = hash[normalize_cp cp][CODEPOINT_FIELDS[action]].to_s.to_i(16)

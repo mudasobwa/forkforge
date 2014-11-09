@@ -20,6 +20,14 @@ Given(/^we have a pattern looking like a tag$/) do
   @pattern = /<.*?>/
 end
 
+Given(/^we have a symbol "(.*?)"$/) do |symbol|
+  @input = symbol
+end
+
+Given(/^we have a symbol with codebase "(.*?)"$/) do |cb|
+  @input = cb.to_i(16)
+end
+
 ###############################################################################
 #####    WHEN
 ###############################################################################
@@ -76,6 +84,10 @@ When(/^lookup using all_character_name is done with this pattern$/) do
   @output = Forkforge::UnicodeData::all_character_name Regexp.new @pattern
 end
 
+When(/^lookup using symbols_by_name is done with this pattern$/) do
+  @output = Forkforge::Unicode::symbols_by_name Regexp.new @pattern, Regexp::IGNORECASE
+end
+
 When(/^result is filtered to show tags$/) do
   @output = Forkforge::TaggedCharacterName::TAGGED_CHARACTERS_NAMES
 end
@@ -86,6 +98,10 @@ end
 
 When(/^result is set to response from "(.*?)" function call$/) do |method|
   @output = Forkforge::TaggedCharacterName::send :"#{method}"
+end
+
+When(/^we retrieve it’s info$/) do
+  @output = Forkforge::UnicodeData::info @input
 end
 
 ###############################################################################

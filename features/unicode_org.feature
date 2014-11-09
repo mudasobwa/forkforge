@@ -205,6 +205,11 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 ###############################################################################
 
 	Scenario: Lookup symbols by name
+	  Given we have a pattern "RiNg AbOvE"
+	   When lookup using symbols_by_name is done with this pattern
+	   Then we print results
+	   
+	Scenario: Lookup symbols by name
 	  Given we have a pattern "RING ABOVE"
 	   When lookup using all_character_name is done with this pattern
 	   Then we print first "2" results
@@ -231,3 +236,17 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	   When result is set to response from "control" function call
 		 Then the result count equals to 65
 	    And we print first "1" results
+	    
+	Scenario: Print info on symbol
+	  Given we have a symbol "〷"
+	   When we retrieve it’s info 
+		 Then the result count equals to 1
+	    And we print results
+	    
+	Scenario: Print info on symbol on it’s codebase
+	  Given we have a symbol with codebase "0x3037"
+	   When we retrieve it’s info 
+		 Then the result count equals to 1
+	    And we print results
+	    
+	    
