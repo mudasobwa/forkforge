@@ -46,14 +46,30 @@ end
 
 Then(/^the file is got from www.unicode.org\/Public\/5.1.0\/ucd\/UnicodeData.txt is printed out$/) do
   @hash = Forkforge::UnicodeData::hash
-  puts @hash.take 48, 10
+  puts @hash.take 2
 end
 
 Then(/^the result is "(.*?)"$/) do |result|
   expect(@output).to eq(result)
 end
 
+Then(/^the result count equals to (\d+)$/) do |count|
+  expect(@output.count).to eq(count.to_i)
+end
+
+Then(/^the first item equals to "(.*?)"$/) do |string|
+  expect(@output[0]).to eq(string)
+end
+
+Then(/^the first item’s value equals to "(.*?)"$/) do |string|
+  expect(@output.values[0]).to eq(string)
+end
+
 Then(/^we print a result$/) do
   puts @output
 #  puts @output.take 10, 10
+end
+
+Then(/^we print a result count$/) do
+  puts @output.count
 end

@@ -73,12 +73,10 @@ module Forkforge
     end
     private :normalize_cp
         
+    # TODO return true/false whether the normalization was done?
     def to_char cp, action = :origin
-      [
-        (CODEPOINT_FIELDS.keys.include?(action) ? 
-          hash[normalize_cp cp][CODEPOINT_FIELDS[action]] : nil
-        ).to_s.to_i(16)
-      ].pack('U')
+      result = hash[normalize_cp cp][CODEPOINT_FIELDS[action]].to_s.to_i(16)
+      [result.vacant? ? (Integer === cp ? cp : cp.to_s.to_i(16)) : result].pack('U')
     end
     
     UNICODE_FIELDS.each { |method|

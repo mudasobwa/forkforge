@@ -4,6 +4,7 @@ class Object
   def vacant?
     self.nil? || 
     self.respond_to?(:strip) && self.strip.empty? ||
+    self.respond_to?(:zero?) && self.zero? ||
     Array === self && (self  - [nil]).empty? 
   end
 end
