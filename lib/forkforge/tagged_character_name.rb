@@ -14,15 +14,15 @@ module Forkforge
       memo  
     }
     
-  TAGGED_CHARACTERS.each { |k, v|
-    tc = k.downcase.gsub(/^<|>$/, '').gsub(/\W/, '_')
-    class_eval %Q{
-      def #{tc}
-        #{v}
-      end
+    TAGGED_CHARACTERS.each { |k, v|
+      tc = k.downcase.gsub(/^<|>$/, '').gsub(/\W/, '_')
+      class_eval %Q{
+        def #{tc}
+          #{v}
+        end
+      }
     }
-  }
-  
-  extend self
+    
+    extend self
   end
 end

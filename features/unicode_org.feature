@@ -38,6 +38,10 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 		Then the result count equals to 8679
 		 And the first item equals to "ƻ"
 		 
+	Scenario: Get all codepoints for uppercased letters
+	  When we call uppercase_code_point on Forkforge::Letter
+	  Then we print results
+		 
 ###############################################################################
 	
 	Scenario: Get all specific marks: non-spacing
@@ -204,9 +208,14 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 ###############################################################################
 
+	Scenario: Decompose symbols
+	  Given we have a string "Barçelona Niños"
+	   When we decompose it
+	   Then we print results
+	   
 	Scenario: Lookup symbols by name
 	  Given we have a pattern "RiNg AbOvE"
-	   When lookup using symbols_by_name is done with this pattern
+	   When lookup is done with this pattern
 	   Then we print results
 	   
 	Scenario: Lookup symbols by name

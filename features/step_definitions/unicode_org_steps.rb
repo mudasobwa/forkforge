@@ -8,6 +8,10 @@ Given(/^we have no local copy of the "(.*?)" file$/) do |f|
   @f = f
 end
 
+Given(/^we have a string "(.*?)"$/) do |input|
+  @input = input
+end
+
 Given(/^we have a cyrillic string "(.*?)"$/) do |input|
   @input = input
 end
@@ -36,6 +40,10 @@ When(/^the string is upcased$/) do
   @output = Forkforge::Unicode::upcase @input
 end
 
+When(/^we decompose it$/) do
+  @output = Forkforge::Unicode::decompose @input
+end
+
 When(/^the string is downcased$/) do
   @output = Forkforge::Unicode::downcase @input
 end
@@ -54,6 +62,10 @@ end
 
 When(/^we call "(.*?)" method on Forkforge::Letter$/) do |method|
   @output = Forkforge::Letter::send :"#{method}"
+end
+
+When(/^we call uppercase_code_point on Forkforge::Letter$/) do
+  @output = Forkforge::Letter::uppercase_code_point
 end
 
 When(/^we call "(.*?)" method on Forkforge::Mark$/) do |method|
@@ -84,8 +96,8 @@ When(/^lookup using all_character_name is done with this pattern$/) do
   @output = Forkforge::UnicodeData::all_character_name Regexp.new @pattern
 end
 
-When(/^lookup using symbols_by_name is done with this pattern$/) do
-  @output = Forkforge::Unicode::symbols_by_name Regexp.new @pattern, Regexp::IGNORECASE
+When(/^lookup is done with this pattern$/) do
+  @output = Forkforge::Unicode::lookup Regexp.new @pattern, Regexp::IGNORECASE
 end
 
 When(/^result is filtered to show tags$/) do

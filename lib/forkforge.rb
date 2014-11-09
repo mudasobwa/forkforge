@@ -24,11 +24,18 @@ module Forkforge
       }.join
     end
     
-    def symbols_by_name pattern
+    def lookup pattern
       Forkforge::UnicodeData::all_character_name(pattern).map { |k, v|
         Forkforge::UnicodeData::to_char k
       }
     end
+    
+    def decompose s
+      s.each_codepoint.map { |cp|
+        Forkforge::UnicodeData::decompose_cp cp
+      }
+    end
+
     extend self
   end
 end

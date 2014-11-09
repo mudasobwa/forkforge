@@ -99,6 +99,12 @@ module Forkforge
       }
     }
 
+    def decompose_cp cp
+      normalized = normalize_cp cp
+      mapping = hash[normalized][:character_decomposition_mapping]
+      mapping.vacant? ? normalized : mapping.split(' ').map { |cp|  decompose_cp cp }
+    end
+
     extend self
   end
 end
