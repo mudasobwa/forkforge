@@ -27,7 +27,6 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 		When we call "opens" method on Forkforge::Punctuation
 		Then the result count equals to 72
 		 And the first item equals to "("
-		 And we print results
 	
 	Scenario: Get all specific punctuation: closes
 		When we call "closes" method on Forkforge::Punctuation
@@ -78,4 +77,33 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     When the string is downcased
     Then the result is "мама мыла раму"
 
-    
+###############################################################################
+
+	Scenario: Lookup symbols by name
+	  Given we have a pattern "RING ABOVE"
+	   When lookup using all_character_name is done with this pattern
+	   Then we print first "2" results
+	   
+	Scenario: Lookup symbols with tagged character_name
+	  Given we have a pattern looking like a tag
+	   When lookup using all_character_name is done with this pattern
+	   Then we print first "1" results
+	   
+	Scenario: Lookup tag names using character_name
+	  Given we have a pattern looking like a tag
+	   When result is filtered to show tags
+		 Then the result count equals to 21
+	    And we print first "21" results
+	    
+	Scenario: Lookup tags using character_name
+	  Given we have a pattern looking like a tag
+	   When result is filtered to show tagged characters
+		 Then the result count equals to 21
+	    And the result’s first element nested count is "65"
+	    And we print first "1" results
+	    
+	Scenario: Lookup tags using meta method
+	  Given we have a pattern looking like a tag
+	   When result is set to response from "control" function call
+		 Then the result count equals to 65
+	    And we print first "1" results

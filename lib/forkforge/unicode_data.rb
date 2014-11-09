@@ -85,6 +85,7 @@ module Forkforge
           hash[normalize_cp cp][:#{method}]
         end
         def all_#{method} pattern = nil
+          pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
           hash.select { |k, v| pattern.nil? ? !v[:#{method}].vacant? : !pattern.match(v[:#{method}]).nil? }
         end
       }

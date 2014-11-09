@@ -12,6 +12,14 @@ Given(/^we have a cyrillic string "(.*?)"$/) do |input|
   @input = input
 end
 
+Given(/^we have a pattern "(.*?)"$/) do |pattern|
+  @pattern = pattern
+end
+
+Given(/^we have a pattern looking like a tag$/) do
+  @pattern = /<.*?>/
+end
+
 ###############################################################################
 #####    WHEN
 ###############################################################################
@@ -40,6 +48,22 @@ When(/^we call "(.*?)" method on Forkforge::Punctuation$/) do |method|
   @output = Forkforge::Punctuation::send :"#{method}"
 end
 
+When(/^lookup using all_character_name is done with this pattern$/) do
+  @output = Forkforge::UnicodeData::all_character_name Regexp.new @pattern
+end
+
+When(/^result is filtered to show tags$/) do
+  @output = Forkforge::TaggedCharacterName::TAGGED_CHARACTERS_NAMES
+end
+
+When(/^result is filtered to show tagged characters$/) do
+  @output = Forkforge::TaggedCharacterName::TAGGED_CHARACTERS
+end
+
+When(/^result is set to response from "(.*?)" function call$/) do |method|
+  @output = Forkforge::TaggedCharacterName::send :"#{method}"
+end
+
 ###############################################################################
 #####    THEN
 ###############################################################################
@@ -65,7 +89,15 @@ Then(/^the first item’s value equals to "(.*?)"$/) do |string|
   expect(@output.values[0]).to eq(string)
 end
 
-Then(/^we print result$/) do
+Then(/^the result’s first element nested count is "(.*?)"$/) do |count|
+  expect(@output.values[0].count).to eq(count.to_i)
+end
+
+Then(/^we print first "(.*?)" results$/) do |count|
+  puts @output.take count.to_i
+end
+
+Then(/^we print results$/) do
   puts @output
 end
 

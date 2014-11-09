@@ -3,6 +3,7 @@
 require "forkforge/version"
 require "forkforge/unicode_data"
 require "forkforge/punctuation"
+require "forkforge/tagged_character_name"
 
 module Forkforge
   module Unicode
