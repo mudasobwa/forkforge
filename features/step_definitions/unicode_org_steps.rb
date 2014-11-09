@@ -48,6 +48,10 @@ When(/^we call "(.*?)" method on Forkforge::Punctuation$/) do |method|
   @output = Forkforge::Punctuation::send :"#{method}"
 end
 
+When(/^we call "(.*?)" method on Forkforge::Letter$/) do |method|
+  @output = Forkforge::Letter::send :"#{method}"
+end
+
 When(/^lookup using all_character_name is done with this pattern$/) do
   @output = Forkforge::UnicodeData::all_character_name Regexp.new @pattern
 end

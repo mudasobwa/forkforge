@@ -14,49 +14,76 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 ###############################################################################
 	
 	Scenario: Get all specific punctuation: connectors
-		When we call "connectors" method on Forkforge::Punctuation
+		When we call "connector" method on Forkforge::Punctuation
 		Then the result count equals to 10
 		 And the first item equals to "_"
 	
 	Scenario: Get all specific punctuation: dashes
-		When we call "dashes" method on Forkforge::Punctuation
+		When we call "dash" method on Forkforge::Punctuation
 		Then the result count equals to 20
 		 And the first item equals to "-"
 	
 	Scenario: Get all specific punctuation: opens
-		When we call "opens" method on Forkforge::Punctuation
+		When we call "open" method on Forkforge::Punctuation
 		Then the result count equals to 72
 		 And the first item equals to "("
 	
 	Scenario: Get all specific punctuation: closes
-		When we call "closes" method on Forkforge::Punctuation
+		When we call "close" method on Forkforge::Punctuation
 		Then the result count equals to 71
 		 And the first item equals to ")"
 	
 	Scenario: Get all specific punctuation: initial_quotes
-		When we call "initial_quotes" method on Forkforge::Punctuation
+		When we call "initial_quote" method on Forkforge::Punctuation
 		Then the result count equals to 12
 		 And the first item equals to "«"
 	
 	Scenario: Get all specific punctuation: final_quotes
-		When we call "final_quotes" method on Forkforge::Punctuation
+		When we call "final_quote" method on Forkforge::Punctuation
 		Then the result count equals to 10
 		 And the first item equals to "»"
 	
 	Scenario: Get all specific punctuation: others
-		When we call "others" method on Forkforge::Punctuation
+		When we call "other" method on Forkforge::Punctuation
 		Then the result count equals to 315
 		 And the first item equals to "!"
 		 
 ###############################################################################
+	
+	Scenario: Get all specific letter: uppercase
+		When we call "uppercase" method on Forkforge::Letter
+		Then the result count equals to 1421
+		 And the first item equals to "A"
+	
+	Scenario: Get all specific letter: lowercase
+		When we call "lowercase" method on Forkforge::Letter
+		Then the result count equals to 1748
+		 And the first item equals to "a"
+	
+	Scenario: Get all specific letter: titlecase
+		When we call "titlecase" method on Forkforge::Letter
+		Then the result count equals to 31
+		 And the first item equals to "ǅ"
+	
+	Scenario: Get all specific letter: modifier
+		When we call "modifier" method on Forkforge::Letter
+		Then the result count equals to 187
+		 And the first item equals to "ʰ"
+	
+	Scenario: Get all specific letter: others
+		When we call "other" method on Forkforge::Letter
+		Then the result count equals to 8679
+		 And the first item equals to "ƻ"
+		 
+###############################################################################
 
 	Scenario: Get all connectors with their names
-		When we call "connectors_character_name" method on Forkforge::Punctuation
+		When we call "connector_character_name" method on Forkforge::Punctuation
 		Then the result count equals to 10
 		 And the first item’s value equals to "LOW LINE"
 	
 	Scenario: Get all dashes with their names
-		When we call "dashes_character_name" method on Forkforge::Punctuation
+		When we call "dash_character_name" method on Forkforge::Punctuation
 		Then the result count equals to 20
 		 And the first item’s value equals to "HYPHEN-MINUS"
 	
@@ -100,7 +127,6 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	   When result is filtered to show tagged characters
 		 Then the result count equals to 21
 	    And the result’s first element nested count is "65"
-	    And we print first "1" results
 	    
 	Scenario: Lookup tags using meta method
 	  Given we have a pattern looking like a tag
