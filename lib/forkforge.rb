@@ -8,14 +8,15 @@ module Forkforge
   module Unicode
     def upcase s
       s.each_codepoint.map { |m|
-        UnicodeData::uppercase_mapping m
+        UnicodeData::to_char m, :upcase
       }.join
     end
     def downcase s
       s.each_codepoint.map { |m|
-        UnicodeData::lowercase_mapping m
+        UnicodeData::to_char m, :downcase
       }.join
     end
+    # FIXME We are spitting on titlecase_mapping. Is this correct?
     def titlecase s
       s.split(/\b/).map { |s|
         s.strip.empty? ? s : upcase(s[0]) + downcase(s[1..-1])

@@ -27,11 +27,24 @@ module Forkforge
 
     TYPES.each { |type|
       class_eval %Q{
-        def #{type.last} s = nil
+        def #{type.last}_raw
           @@#{type.last} ||= Forkforge::UnicodeData::all_general_category /#{type.first}/
-          @@#{type.last}_array ||= @@#{type.last}.map { |k, v| Forkforge::UnicodeData::code_point k } 
+        end
+        def #{type.last} s = nil
+          @@#{type.last}_array ||= #{type.last}_raw.map { |k, v| Forkforge::UnicodeData::to_char k }
           s.respond_to?(:scan) ? s.scan(Regexp.new(@@#{type.last}_array.join '|')) : @@#{type.last}_array
         end
+      }
+      TYPES.each { |type|
+        UnicodeData::UNICODE_FIELDS.each { |method|
+          class_eval %Q{
+            def #{type.last}_#{method}
+              @@#{type.last}_#{method} ||= #{type.last}_raw.map { |k, v| 
+                [ Forkforge::UnicodeData::to_char(k), Forkforge::UnicodeData::get_#{method} ]
+              }.to_h
+            end
+          }
+        }
       }
     }
         

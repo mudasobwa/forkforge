@@ -54,6 +54,6 @@ Then(/^the result is "(.*?)"$/) do |result|
 end
 
 Then(/^we print a result$/) do
-  puts @output.take 10
+  puts @output
 #  puts @output.take 10, 10
 end

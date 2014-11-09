@@ -7,6 +7,14 @@ module Forkforge
     LOCATION = 'data'
     UNICODE_DATA_FILE = 'UnicodeData.txt'
     UNICODE_DATA_VERSION = '5.1.0'
+    
+    CODEPOINT_FIELDS = {
+      :origin => :code_point, 
+      :upcase => :uppercase_mapping,
+      :downcase => :lowercase_mapping, 
+      :titlecase => :titlecase_mapping
+    }
+      
     UNICODE_FIELDS = [
       :code_point, 
       :character_name, 
@@ -59,25 +67,24 @@ module Forkforge
       end
       raw
     end
-    
-    def from_codepoint cp
-      case cp
-      when Integer then hash["%04X" % cp]
-      when String  then hash["%04X" % cp.to_i(16)]
-      else nil
-      end
+
+    def normalize_cp cp
+      Integer === cp ? "%04X" % cp : cp
     end
-    
-    def yo cp, action
-      yoyo = UnicodeData::from_codepoint(cp)[action]
-      [yoyo.vacant? ? cp : yoyo.to_i(16)].pack('U')
+    private :normalize_cp
+        
+    def to_char cp, action = :origin
+      [
+        (CODEPOINT_FIELDS.keys.include?(action) ? 
+          hash[normalize_cp cp][CODEPOINT_FIELDS[action]] : nil
+        ).to_s.to_i(16)
+      ].pack('U')
     end
-    private :yo
     
     UNICODE_FIELDS.each { |method|
       class_eval %Q{
-        def #{method} cp
-          yo cp, :#{method}
+        def get_#{method} cp
+          hash[normalize_cp cp][#{method}]
         end
         def all_#{method} pattern = nil
           hash.select { |k, v| pattern.nil? ? !v[:#{method}].vacant? : !pattern.match(v[:#{method}]).nil? }
