@@ -44,12 +44,32 @@ When(/^we call all_character_decomposition_mapping on Forkforge::UnicodeData$/) 
   @output = Forkforge::UnicodeData::all_character_decomposition_mapping
 end
 
+When(/^we call "(.*?)" method on Forkforge::Letter$/) do |method|
+  @output = Forkforge::Letter::send :"#{method}"
+end
+
+When(/^we call "(.*?)" method on Forkforge::Mark$/) do |method|
+  @output = Forkforge::Mark::send :"#{method}"
+end
+
+When(/^we call "(.*?)" method on Forkforge::Number$/) do |method|
+  @output = Forkforge::Number::send :"#{method}"
+end
+
 When(/^we call "(.*?)" method on Forkforge::Punctuation$/) do |method|
   @output = Forkforge::Punctuation::send :"#{method}"
 end
 
-When(/^we call "(.*?)" method on Forkforge::Letter$/) do |method|
-  @output = Forkforge::Letter::send :"#{method}"
+When(/^we call "(.*?)" method on Forkforge::Symbol$/) do |method|
+  @output = Forkforge::Symbol::send :"#{method}"
+end
+
+When(/^we call "(.*?)" method on Forkforge::Separator$/) do |method|
+  @output = Forkforge::Separator::send :"#{method}"
+end
+
+When(/^we call "(.*?)" method on Forkforge::Other$/) do |method|
+  @output = Forkforge::Other::send :"#{method}"
 end
 
 When(/^lookup using all_character_name is done with this pattern$/) do

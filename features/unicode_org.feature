@@ -13,6 +13,67 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 ###############################################################################
 	
+	Scenario: Get all specific letter: uppercase
+		When we call "uppercase" method on Forkforge::Letter
+		Then the result count equals to 1421
+		 And the first item equals to "A"
+	
+	Scenario: Get all specific letter: lowercase
+		When we call "lowercase" method on Forkforge::Letter
+		Then the result count equals to 1748
+		 And the first item equals to "a"
+	
+	Scenario: Get all specific letter: titlecase
+		When we call "titlecase" method on Forkforge::Letter
+		Then the result count equals to 31
+		 And the first item equals to "ǅ"
+	
+	Scenario: Get all specific letter: modifier
+		When we call "modifier" method on Forkforge::Letter
+		Then the result count equals to 187
+		 And the first item equals to "ʰ"
+	
+	Scenario: Get all specific letter: others
+		When we call "other" method on Forkforge::Letter
+		Then the result count equals to 8679
+		 And the first item equals to "ƻ"
+		 
+###############################################################################
+	
+	Scenario: Get all specific marks: non-spacing
+		When we call "non_spacing" method on Forkforge::Mark
+		Then the result count equals to 1032
+		 And the first item equals to "̀"
+	
+	Scenario: Get all specific marks: spacing combining
+		When we call "spacing_combining" method on Forkforge::Mark
+		Then the result count equals to 236
+		 And the first item equals to "ः"
+	
+	Scenario: Get all specific marks: enclosing
+		When we call "enclosing" method on Forkforge::Mark
+		Then the result count equals to 13
+		 And the first item equals to "҈"
+		 
+###############################################################################
+	
+	Scenario: Get all specific numbers: decimal digit
+		When we call "decimal_digit" method on Forkforge::Number
+		Then the result count equals to 370
+		 And the first item equals to "0"
+	
+	Scenario: Get all specific numbers: letter
+		When we call "letter" method on Forkforge::Number
+		Then the result count equals to 214
+		 And the first item equals to "ᛮ"
+	
+	Scenario: Get all specific numbers: other
+		When we call "other" method on Forkforge::Number
+		Then the result count equals to 349
+		 And the first item equals to "²"
+		 
+###############################################################################
+	
 	Scenario: Get all specific punctuation: connectors
 		When we call "connector" method on Forkforge::Punctuation
 		Then the result count equals to 10
@@ -50,30 +111,67 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 		 
 ###############################################################################
 	
-	Scenario: Get all specific letter: uppercase
-		When we call "uppercase" method on Forkforge::Letter
-		Then the result count equals to 1421
-		 And the first item equals to "A"
+	Scenario: Get all specific symbols: math
+		When we call "math" method on Forkforge::Symbol
+		Then the result count equals to 945
+		 And the first item equals to "+"
 	
-	Scenario: Get all specific letter: lowercase
-		When we call "lowercase" method on Forkforge::Letter
-		Then the result count equals to 1748
-		 And the first item equals to "a"
+	Scenario: Get all specific symbols: currency
+		When we call "currency" method on Forkforge::Symbol
+		Then the result count equals to 41
+		 And the first item equals to "$"
 	
-	Scenario: Get all specific letter: titlecase
-		When we call "titlecase" method on Forkforge::Letter
-		Then the result count equals to 31
-		 And the first item equals to "ǅ"
+	Scenario: Get all specific symbols: modifier
+		When we call "modifier" method on Forkforge::Symbol
+		Then the result count equals to 99
+		 And the first item equals to "^"
 	
-	Scenario: Get all specific letter: modifier
-		When we call "modifier" method on Forkforge::Letter
-		Then the result count equals to 187
-		 And the first item equals to "ʰ"
+	Scenario: Get all specific symbols: other
+		When we call "other" method on Forkforge::Symbol
+		Then the result count equals to 3225
+		 And the first item equals to "¦"
+		 
+###############################################################################
 	
-	Scenario: Get all specific letter: others
-		When we call "other" method on Forkforge::Letter
-		Then the result count equals to 8679
-		 And the first item equals to "ƻ"
+	Scenario: Get all specific separators: space
+		When we call "space" method on Forkforge::Separator
+		Then the result count equals to 18
+		 And the first item equals to " "
+	
+	Scenario: Get all specific separators: line
+		When we call "line" method on Forkforge::Separator
+		Then the result count equals to 1
+		 And we print results
+	
+	Scenario: Get all specific separators: paragraph
+		When we call "paragraph" method on Forkforge::Separator
+		Then the result count equals to 1
+		 And we print results
+		 
+###############################################################################
+
+	Scenario: Get all specific others: control
+		When we call "control" method on Forkforge::Other
+		Then the result count equals to 65
+		 
+	Scenario: Get all specific others: format
+		When we call "format" method on Forkforge::Other
+		Then the result count equals to 139
+		 And the first item equals to "­"
+		 
+	Scenario: Get all specific others: surrogate
+		When we call "surrogate" method on Forkforge::Other
+		Then the result count equals to 6
+		 And we print results
+		 
+	Scenario: Get all specific others: private use
+		When we call "private_use" method on Forkforge::Other
+		Then the result count equals to 6
+		 And we print results
+		 
+	Scenario: Get all specific others: not assigned
+		When we call "not_assigned" method on Forkforge::Other
+		Then the result count equals to 0
 		 
 ###############################################################################
 
