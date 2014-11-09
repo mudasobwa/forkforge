@@ -65,9 +65,8 @@ Then(/^the first item’s value equals to "(.*?)"$/) do |string|
   expect(@output.values[0]).to eq(string)
 end
 
-Then(/^we print a result$/) do
+Then(/^we print result$/) do
   puts @output
-#  puts @output.take 10, 10
 end
 
 Then(/^we print a result count$/) do

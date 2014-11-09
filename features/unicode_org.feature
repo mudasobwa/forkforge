@@ -27,6 +27,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 		When we call "opens" method on Forkforge::Punctuation
 		Then the result count equals to 72
 		 And the first item equals to "("
+		 And we print results
 	
 	Scenario: Get all specific punctuation: closes
 		When we call "closes" method on Forkforge::Punctuation
