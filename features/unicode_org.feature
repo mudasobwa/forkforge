@@ -212,6 +212,11 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	  Given we have a string "Barçelona Niños"
 	   When we decompose it
 	   Then we print results
+
+	Scenario: Decompose symbols with <font>
+	  Given we have a string "ℂool"
+	   When we decompose it
+	   Then we print results
 	   
 	Scenario: Lookup symbols by name
 	  Given we have a pattern "RiNg AbOvE"

@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require_relative 'monkeypatches'
+require_relative 'character_decomposition_mapping'
 
 module Forkforge
   module UnicodeData
@@ -101,6 +102,8 @@ module Forkforge
 
     def decompose_cp cp
       normalized = normalize_cp cp
+      return Forkforge::CharacterDecompositionMapping::VARIANTS_UC[normalized] \
+        if Forkforge::CharacterDecompositionMapping::VARIANTS_UC[normalized] 
       mapping = hash[normalized][:character_decomposition_mapping]
       mapping.vacant? ? normalized : mapping.split(' ').map { |cp|  decompose_cp cp }
     end
