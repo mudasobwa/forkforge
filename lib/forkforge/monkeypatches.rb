@@ -9,7 +9,7 @@ class Object
   end
 end
 
-unless Hash.respond_to? take
+unless Hash.respond_to? :take
   class Hash
     def take count, from = 0
       Hash[self.to_a[from..from+count]]
@@ -17,7 +17,7 @@ unless Hash.respond_to? take
   end
 end
 
-unless Array.respond_to? to_h
+unless Array.respond_to? :to_h
   class Array
     def to_h
       i = 0
