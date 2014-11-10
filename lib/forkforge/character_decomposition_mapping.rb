@@ -44,6 +44,35 @@ module Forkforge
     }
     VARIANTS_UC = VARIANTS.map { |k, v| [ "<#{k}>", v ] }.to_h
      
+=begin
+  :code_point, 
+  :character_name, 
+  :general_category,
+  :canonical_combining_classes,
+  :bidirectional_category,
+  :character_decomposition_mapping,
+  :decimal_digit_value,
+  :digit_value,
+  :numeric_value,
+  :mirrored,
+  :unicode_1_0_name,
+  :_10646_comment_field,
+  :uppercase_mapping,
+  :lowercase_mapping,
+  :titlecase_mapping
+=end
+
+    # Puts additional decomposition mapping into table
+    # Useful entries: name, codepoint, decomposition_lambda, persistent
+    def variant name: nil, code_point: nil, decomposition_lambda: nil, persistent: false, \
+                character_name: nil, general_category: 'Yy', canonical_combining_classes: nil, \
+                bidirectional_category: 'L', character_decomposition_mapping: '<custom>', decimal_digit_value: nil, \
+                digit_value: nil, numeric_value: nil, mirrored: nil, unicode_1_0_name: nil, _10646_comment_field: nil, \
+                uppercase_mapping: nil, lowercase_mapping:nil, titlecase_mapping: nil
+      
+    end
+    def decomposition_lambda origin, &cb
+    end
     extend self
   end
 end

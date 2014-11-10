@@ -76,8 +76,8 @@ module Forkforge
         
     def info s
       case s
-      when String then s.each_codepoint.map { |cp| UnicodeData::hash[normalize_cp cp] }
-      when Integer then [UnicodeData::hash[normalize_cp s]]
+      when String then s.each_codepoint.map { |cp| hash[normalize_cp cp] }
+      when Integer then [hash[normalize_cp s]]
       else nil
       end
     end
