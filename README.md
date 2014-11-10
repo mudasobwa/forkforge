@@ -1,6 +1,12 @@
 # Forkforge
 
-TODO: Write a gem description
+[![Build Status](https://travis-ci.org/mudasobwa/forkforge.png)](https://travis-ci.org/mudasobwa/forkforge)
+[![Gemnasium](https://gemnasium.com/mudasobwa/forkforge.png?travis)](https://gemnasium.com/mudasobwa/forkforge)
+[![Stories in Ready](https://badge.waffle.io/mudasobwa/forkforge.png?label=ready)](http://waffle.io/mudasobwa/forkforge)
+
+**Status:** Minimum viable product
+
+---
 
 ## Installation
 
