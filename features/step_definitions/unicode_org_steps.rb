@@ -121,8 +121,7 @@ When(/^we retrieve it’s info$/) do
 end
 
 When(/^we add custom decomposition rule$/) do
-  Forkforge::CharacterDecompositionMapping::variant \
-    name: :ascii_acute, code_points: ['00E1'], decomposition_lambda: nil, persistent: false
+  @pending # Will be implemented after core is done
 end
 
 When(/^we construct Tag object against it$/) do

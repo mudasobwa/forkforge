@@ -61,15 +61,6 @@ module Forkforge
       end
     end
 
-    # Puts additional decomposition mapping into table
-    # Useful entries: name, code_points, decomposition_lambda, persistent
-    def variant name: nil, code_points: [], decomposition_lambda: nil, persistent: false
-
-    end
-
-    def decomposition_lambda origin, &cb
-    end
-
     extend self
   end
 end

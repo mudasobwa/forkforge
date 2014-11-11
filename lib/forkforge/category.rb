@@ -4,6 +4,8 @@ require_relative "unicode_data"
 
 module Forkforge
   module Category
+    # Letter::all_raw | Letter::uppercase_raw | Letter::uppercase 'Alexei' # ⇒ 'A'
+    # Letter::uppercase_code_point | Mark::non_spacing_bidirectional_category
     def self.included base
       base.const_get(:TYPES).each { |type|
         base.class_eval %Q{
@@ -15,12 +17,10 @@ module Forkforge
             s.respond_to?(:scan) ? s.scan(Regexp.new(@@#{type.last}_array.join '|')) : @@#{type.last}_array
           end
         }
-      }
-      base.const_get(:TYPES).each { |type|
         UnicodeData::UNICODE_FIELDS.each { |method|
           base.class_eval %Q{
             def #{type.last}_#{method}
-              @@#{type.last}_#{method} ||= #{type.last}_raw.map { |k, v| 
+              @@#{type.last}_#{method} ||= #{type.last}_raw.map { |k, v|
                 [ Forkforge::UnicodeData::to_char(k), Forkforge::UnicodeData::get_#{method}(k) ]
               }.to_h
             end
@@ -30,14 +30,14 @@ module Forkforge
       base.extend base
     end
   end
-  
+
 =begin
   Lu  Letter, Uppercase
   Ll  Letter, Lowercase
   Lt  Letter, Titlecase
   Lm  Letter, Modifier
   Lo  Letter, Other
-=end  
+=end
   module Letter
     TYPES = [
       ['L.', :all],
@@ -54,7 +54,7 @@ module Forkforge
   Mn  Mark, Non-Spacing
   Mc  Mark, Spacing Combining
   Me  Mark, Enclosing
-=end  
+=end
   module Mark
     TYPES = [
       ['M.', :all],
@@ -69,7 +69,7 @@ module Forkforge
   Nd  Number, Decimal Digit
   Nl  Number, Letter
   No  Number, Other
-=end  
+=end
   module Number
     TYPES = [
       ['N.', :all],
@@ -102,13 +102,13 @@ module Forkforge
     ]
     include Forkforge::Category
   end
-    
+
 =begin
   Sm  Symbol, Math
   Sc  Symbol, Currency
   Sk  Symbol, Modifier
   So  Symbol, Other
-=end  
+=end
   module Symbol
     TYPES = [
       ['S.', :all],
@@ -124,7 +124,7 @@ module Forkforge
   Zs  Separator, Space
   Zl  Separator, Line
   Zp  Separator, Paragraph
-=end  
+=end
   module Separator
     TYPES = [
       ['Z.', :all],
@@ -141,7 +141,7 @@ module Forkforge
   Cs  Other, Surrogate
   Co  Other, Private Use
   Cn  Other, Not Assigned (no characters in the file have this property)
-=end  
+=end
   module Other
     TYPES = [
       ['C.', :all],

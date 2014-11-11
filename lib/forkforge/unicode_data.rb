@@ -88,6 +88,8 @@ module Forkforge
       [result.vacant? ? (Integer === cp ? cp : cp.to_s.to_i(16)) : result].pack('U')
     end
 
+    # get_code_point '00A0' | get_character_decomposition_mapping 0xA0 | ...
+    # all_code_point /00[A-C]\d/ | get_character_decomposition_mapping /00A*/ | ...
     UNICODE_FIELDS.each { |method|
       class_eval %Q{
         def get_#{method} cp

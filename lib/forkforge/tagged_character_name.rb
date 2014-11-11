@@ -5,15 +5,15 @@ require_relative 'unicode_data'
 
 module Forkforge
   module TaggedCharacterName
-    ALL_TAGGED = Forkforge::UnicodeData::all_character_name /<.*?>/
-    
+    ALL_TAGGED = Forkforge::UnicodeData::all_character_name /^<.*?>$/
+
     TAGGED_CHARACTERS_NAMES = ALL_TAGGED.map { |k, v| v[:character_name] }.uniq
-    
-    TAGGED_CHARACTERS = ALL_TAGGED.reduce({}) { |memo, v| 
+
+    TAGGED_CHARACTERS = ALL_TAGGED.reduce({}) { |memo, v|
       (memo[v.last[:character_name]] ||= []) << v.last
-      memo  
+      memo
     }
-    
+
     TAGGED_CHARACTERS.each { |k, v|
       tc = k.downcase.gsub(/^<|>$/, '').gsub(/\W/, '_')
       class_eval %Q{
@@ -22,7 +22,7 @@ module Forkforge
         end
       }
     }
-    
+
     extend self
   end
 end
