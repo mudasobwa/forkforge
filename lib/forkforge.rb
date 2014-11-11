@@ -23,16 +23,16 @@ module Forkforge
         w.strip.empty? ? w : upcase(w[0]) + downcase(w[1..-1])
       }.join
     end
-    
+
     def lookup pattern
       Forkforge::UnicodeData::all_character_name(pattern).map { |k, v|
         Forkforge::UnicodeData::to_char k
       }
     end
-    
-    def decompose s
+
+    def decompose s, tags = []
       s.each_codepoint.map { |cp|
-        Forkforge::UnicodeData::decompose_cp cp
+        Forkforge::UnicodeData::decompose_cp cp, tags
       }
     end
 

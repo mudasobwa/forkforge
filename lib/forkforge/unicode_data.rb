@@ -8,17 +8,17 @@ module Forkforge
     LOCATION = 'data'
     UNICODE_DATA_FILE = 'UnicodeData.txt'
     UNICODE_DATA_VERSION = '5.1.0'
-    
+
     CODEPOINT_FIELDS = {
-      :origin => :code_point, 
+      :origin => :code_point,
       :upcase => :uppercase_mapping,
-      :downcase => :lowercase_mapping, 
+      :downcase => :lowercase_mapping,
       :titlecase => :titlecase_mapping
     }
-      
+
     UNICODE_FIELDS = [
-      :code_point, 
-      :character_name, 
+      :code_point,
+      :character_name,
       :general_category,
       :canonical_combining_classes,
       :bidirectional_category,
@@ -35,7 +35,7 @@ module Forkforge
     ]
 
     @@unicode_data = nil
-    
+
     def hash
       @@unicode_data = raw.split(/\R/).map do |line|
         values = line.split ';'
@@ -73,7 +73,7 @@ module Forkforge
       Integer === cp ? "%04X" % cp : cp
     end
     private :normalize_cp
-        
+
     def info s
       case s
       when String then s.each_codepoint.map { |cp| hash[normalize_cp cp] }
@@ -87,7 +87,7 @@ module Forkforge
       result = hash[normalize_cp cp][CODEPOINT_FIELDS[action]].to_s.to_i(16)
       [result.vacant? ? (Integer === cp ? cp : cp.to_s.to_i(16)) : result].pack('U')
     end
-    
+
     UNICODE_FIELDS.each { |method|
       class_eval %Q{
         def get_#{method} cp
@@ -100,12 +100,21 @@ module Forkforge
       }
     }
 
-    def decompose_cp cp
+    def decompose_cp cp, tags = []
       normalized = normalize_cp cp
-      return Forkforge::CharacterDecompositionMapping::VARIANTS_UC[normalized] \
-        if Forkforge::CharacterDecompositionMapping::VARIANTS_UC[normalized] 
       mapping = hash[normalized][:character_decomposition_mapping]
-      mapping.vacant? ? normalized : mapping.split(' ').map { |cp|  decompose_cp cp }
+      return normalized if mapping.vacant?
+
+      cps = mapping.split ' '
+
+      return normalized if ![*tags].empty? && \
+        cps.inject(false) { |memo, cp|
+          memo || (CharacterDecompositionMapping::Tag::tag?(cp) && ![*tags].include?(CharacterDecompositionMapping::Tag::tag(cp).sym))
+        }
+
+      cps.reject { |cp|
+        Forkforge::CharacterDecompositionMapping::Tag::tag? cp
+      }.map { |cp| decompose_cp cp, tags }
     end
 
     extend self

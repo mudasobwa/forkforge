@@ -44,6 +44,10 @@ When(/^we decompose it$/) do
   @output = Forkforge::Unicode::decompose @input
 end
 
+When(/^we decompose it with circle tag only$/) do
+  @output = Forkforge::Unicode::decompose @input, :circle
+end
+
 When(/^the string is downcased$/) do
   @output = Forkforge::Unicode::downcase @input
 end
@@ -116,6 +120,15 @@ When(/^we retrieve it’s info$/) do
   @output = Forkforge::UnicodeData::info @input
 end
 
+When(/^we add custom decomposition rule$/) do
+  Forkforge::CharacterDecompositionMapping::variant \
+    name: :ascii_acute, code_points: ['00E1'], decomposition_lambda: nil, persistent: false
+end
+
+When(/^we construct Tag object against it$/) do
+  @output = Forkforge::CharacterDecompositionMapping::Tag.new @input
+end
+
 ###############################################################################
 #####    THEN
 ###############################################################################
@@ -155,4 +168,16 @@ end
 
 Then(/^we print a result count$/) do
   puts @output.count
+end
+
+Then(/^both sym and tag have correct values$/) do
+  expect(@output.tag).to eq('<font>')
+  expect(@output.sym).to eq(:font)
+  expect(@output.valid?).to eq(true)
+end
+
+Then(/^both sym and tag have nil values$/) do
+  expect(@output.tag).to eq(nil)
+  expect(@output.sym).to eq(nil)
+  expect(@output.valid?).to eq(false)
 end
