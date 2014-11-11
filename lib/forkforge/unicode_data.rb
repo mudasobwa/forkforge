@@ -48,6 +48,7 @@ module Forkforge
       end.to_h if @@unicode_data.nil?
       @@unicode_data
     end
+    private :hash
 
     def raw
       if File.exist? "#{LOCATION}/#{UNICODE_DATA_FILE}"

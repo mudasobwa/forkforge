@@ -133,7 +133,7 @@ end
 ###############################################################################
 
 Then(/^the file is got from www.unicode.org\/Public\/5.1.0\/ucd\/UnicodeData.txt is printed out$/) do
-  @hash = Forkforge::UnicodeData::hash
+  @hash = Forkforge::UnicodeData.send :hash # just here for testing purposes, method is private
   puts @hash.take 2
 end
 
