@@ -15,10 +15,9 @@ module Forkforge
         UnicodeData::to_char cp, :downcase
       }.join
     end
-    # FIXME We are spitting on titlecase_mapping. Is this correct?
     def titlecase s
-      s.split(/\b/).map { |w|
-        w.strip.empty? ? w : upcase(w[0]) + downcase(w[1..-1])
+      s.each_codepoint.map { |cp|
+        UnicodeData::to_char(cp, :titlecase) || UnicodeData::to_char(cp, :upcase)
       }.join
     end
 
@@ -27,6 +26,12 @@ module Forkforge
         Letter::is_uppercase(m) ? "_#{m}" : m
       }
       upcase ? upcase(result) : downcase(result)
+    end
+
+    def underscore_to_camel s
+      (downcase s).gsub(/((?<=\A)|_)(\w)/) {
+        titlecase $~[2]
+      }
     end
 
     def lookup pattern

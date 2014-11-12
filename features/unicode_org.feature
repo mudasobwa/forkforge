@@ -18,6 +18,11 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     When we call "camel_to_underscore" method on Forkforge::Unicode
     Then the result is "camel_cased_string"
 
+  Scenario: Underscore to camel function works
+    Given we have a string "underscore_old_school_string"
+    When we call "underscore_to_camel" method on Forkforge::Unicode
+    Then the result is "UnderscoreOldSchoolString"
+
 ###############################################################################
 
   Scenario: Get all specific letter: uppercase
@@ -203,10 +208,11 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     When the string is upcased
     Then the result is "МАМА МЫЛА РАМУ"
 
+  # titlecase titleize every funcking letter!!
   Scenario: Titlecase function works properly on cyrillics
     Given we have a cyrillic string "МАМА мыла РАМУ"
     When the string is titlecased
-    Then the result is "Мама Мыла Раму"
+    Then the result is "МАМА МЫЛА РАМУ"
 
   Scenario: Downcase function works properly on cyrillics
     Given we have a cyrillic string "МАМА мыла РАМУ"

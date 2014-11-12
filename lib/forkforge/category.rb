@@ -42,15 +42,17 @@ module Forkforge
   Lt  Letter, Titlecase
   Lm  Letter, Modifier
   Lo  Letter, Other
+  LC  Letter, Cased (combining)
 =end
   module Letter
     TYPES = [
-      ['L.', :all],
+      ['L.?', :all],
       ['Lu', :uppercase],
       ['Ll', :lowercase],
       ['Lt', :titlecase],
       ['Lm', :modifier],
-      ['Lo', :other]
+      ['Lo', :other],
+      ['L[Cult]', :cased]
     ]
     include Forkforge::Category
   end
@@ -62,7 +64,7 @@ module Forkforge
 =end
   module Mark
     TYPES = [
-      ['M.', :all],
+      ['M.?', :all],
       ['Mn', :non_spacing],
       ['Mc', :spacing_combining],
       ['Me', :enclosing]
@@ -77,7 +79,7 @@ module Forkforge
 =end
   module Number
     TYPES = [
-      ['N.', :all],
+      ['N.?', :all],
       ['Nd', :decimal_digit],
       ['Nl', :letter],
       ['No', :other]
@@ -96,7 +98,7 @@ module Forkforge
 =end
   module Punctuation
     TYPES = [
-      ['P.', :all],
+      ['P.?', :all],
       ['Pc', :connector],
       ['Pd', :dash],
       ['Ps', :open],
@@ -116,7 +118,7 @@ module Forkforge
 =end
   module Symbol
     TYPES = [
-      ['S.', :all],
+      ['S.?', :all],
       ['Sm', :math],
       ['Sc', :currency],
       ['Sk', :modifier],
@@ -132,7 +134,7 @@ module Forkforge
 =end
   module Separator
     TYPES = [
-      ['Z.', :all],
+      ['Z.?', :all],
       ['Zs', :space],
       ['Zl', :line],
       ['Zp', :paragraph]
@@ -149,7 +151,7 @@ module Forkforge
 =end
   module Other
     TYPES = [
-      ['C.', :all],
+      ['C.?', :all],
       ['Cc', :control],
       ['Cf', :format],
       ['Cs', :surrogate],
