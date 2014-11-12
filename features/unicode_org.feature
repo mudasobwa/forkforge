@@ -13,10 +13,17 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 ###############################################################################
 
-	Scenario: Get all specific letter: uppercase
-		When we call "uppercase" method on Forkforge::Letter
-		Then the result count equals to 1421
-		 And the first item equals to "A"
+  Scenario: Camel to underscore function works
+    Given we have a string "CamelCasedString"
+    When we call "camel_to_underscore" method on Forkforge::Unicode
+    Then the result is "camel_cased_string"
+
+###############################################################################
+
+  Scenario: Get all specific letter: uppercase
+    When we call "uppercase" method on Forkforge::Letter
+    Then the result count equals to 1421
+     And the first item equals to "A"
 
 	Scenario: Get all specific letter: lowercase
 		When we call "lowercase" method on Forkforge::Letter

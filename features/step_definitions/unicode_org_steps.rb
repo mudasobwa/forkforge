@@ -36,6 +36,10 @@ end
 #####    WHEN
 ###############################################################################
 
+When(/^we call "(.*?)" method on Forkforge::Unicode$/) do |method|
+  @output = Forkforge::Unicode::send method.to_sym, @input
+end
+
 When(/^the string is upcased$/) do
   @output = Forkforge::Unicode::upcase @input
 end
@@ -105,7 +109,7 @@ When(/^lookup is done with this pattern$/) do
 end
 
 When(/^result is filtered to show tags$/) do
-  @output = Forkforge::TaggedCharacterName::TAGGED_CHARACTERS_NAMES
+  @output = Forkforge::TaggedCharacterName::ALL
 end
 
 When(/^result is filtered to show tagged characters$/) do

@@ -24,6 +24,12 @@ module Forkforge
       }.join
     end
 
+    def camel_to_underscore s
+      downcase s.gsub(/(?<!\A)./) { |m|
+        Letter::is_uppercase(m) ? "_#{m}" : m
+      }
+    end
+
     def lookup pattern
       Forkforge::UnicodeData::all_character_name(pattern).map { |k, v|
         Forkforge::UnicodeData::to_char k

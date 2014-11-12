@@ -12,6 +12,11 @@ module Forkforge
           def #{type.last}_raw
             @@#{type.last} ||= Forkforge::UnicodeData::all_general_category /#{type.first}/
           end
+          def is_#{type.last} s
+            UnicodeData::info(s).inject(true) { |memo, kv|
+              memo &&= kv[:general_category] == "#{type.first}"
+            }
+          end
           def #{type.last} s = nil
             @@#{type.last}_array ||= #{type.last}_raw.map { |k, v| Forkforge::UnicodeData::to_char k }
             s.respond_to?(:scan) ? s.scan(Regexp.new(@@#{type.last}_array.join '|')) : @@#{type.last}_array
