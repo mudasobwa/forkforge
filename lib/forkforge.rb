@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-require "forkforge/version"
-require "forkforge/unicode_data"
+require 'forkforge/version'
+require 'forkforge/unicode_data'
 
 module Forkforge
   module Unicode
@@ -50,5 +50,5 @@ module Forkforge
   end
 end
 
-require "forkforge/category"
-require "forkforge/selector"
+require 'forkforge/category'
+require 'forkforge/selector'

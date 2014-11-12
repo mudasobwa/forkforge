@@ -10,10 +10,10 @@ module Forkforge
     UNICODE_DATA_VERSION = '5.1.0'
 
     CODEPOINT_FIELDS = {
-      :origin => :code_point,
-      :upcase => :uppercase_mapping,
-      :downcase => :lowercase_mapping,
-      :titlecase => :titlecase_mapping
+      origin: :code_point,
+      upcase: :uppercase_mapping,
+      downcase: :lowercase_mapping,
+      titlecase: :titlecase_mapping
     }
 
     UNICODE_FIELDS = [
@@ -55,7 +55,7 @@ module Forkforge
         raw = File.read "#{LOCATION}/#{UNICODE_DATA_FILE}"
       else
         require 'net/http'
-        Net::HTTP.start("www.unicode.org") do |http|
+        Net::HTTP.start('www.unicode.org') do |http|
           resp = http.get "/Public/#{UNICODE_DATA_VERSION}/ucd/#{UNICODE_DATA_FILE}"
           if !File.exist? LOCATION
             require 'fileutils'
@@ -71,7 +71,7 @@ module Forkforge
     end
 
     def normalize_cp cp
-      Integer === cp ? "%04X" % cp : cp
+      Integer === cp ? '%04X' % cp : cp
     end
     private :normalize_cp
 
