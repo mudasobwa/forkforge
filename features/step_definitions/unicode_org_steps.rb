@@ -113,7 +113,7 @@ When(/^result is filtered to show tags$/) do
 end
 
 When(/^result is filtered to show tagged characters$/) do
-  @output = Forkforge::TaggedCharacterName::TAGGED_CHARACTERS
+  @output = Forkforge::TaggedCharacterName::CHARACTERS
 end
 
 When(/^result is set to response from "(.*?)" function call$/) do |method|

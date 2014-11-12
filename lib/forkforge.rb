@@ -2,8 +2,6 @@
 
 require "forkforge/version"
 require "forkforge/unicode_data"
-require "forkforge/tagged_character_name"
-require "forkforge/category"
 
 module Forkforge
   module Unicode
@@ -24,10 +22,11 @@ module Forkforge
       }.join
     end
 
-    def camel_to_underscore s
-      downcase s.gsub(/(?<!\A)./) { |m|
+    def camel_to_underscore s, upcase = false
+      result = s.gsub(/(?<!\A)./) { |m|
         Letter::is_uppercase(m) ? "_#{m}" : m
       }
+      upcase ? upcase(result) : downcase(result)
     end
 
     def lookup pattern
@@ -45,3 +44,6 @@ module Forkforge
     extend self
   end
 end
+
+require "forkforge/category"
+require "forkforge/selector"
