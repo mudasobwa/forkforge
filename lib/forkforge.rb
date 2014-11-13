@@ -6,33 +6,27 @@ require 'forkforge/special_casing'
 
 module Forkforge
   module Unicode
-    def upcase s, lang = nil, context = nil
-      s.each_codepoint.map { |cp|
-        pretendent = SpecialCasing::uppercase(cp, lang, context)
-        (pretendent.codepoints.count == 1 && pretendent.codepoints.first == cp) ? \
-         UnicodeData::to_char(cp, :upcase) : pretendent
-      }.join
-    end
-    def downcase s
-      s.each_codepoint.map { |cp|
-        UnicodeData::to_char cp, :downcase
-      }.join
-    end
-    def titlecase s
-      s.each_codepoint.map { |cp|
-        UnicodeData::to_char(cp, :titlecase) || UnicodeData::to_char(cp, :upcase)
-      }.join
-    end
+    [:uppercase, :lowercase, :titlecase].each { |method|
+      class_eval %Q{
+        def #{method}(s, lang = nil, context = nil)
+          s.each_codepoint.map { |cp|
+            pretendent = SpecialCasing::#{method}(cp, lang, context)
+            (pretendent.codepoints.count == 1 && pretendent.codepoints.first == cp) ? \
+             UnicodeData::to_char(cp, :#{method}_mapping) : pretendent
+          }.join
+        end
+      }
+    }
 
-    def camel_to_underscore s, upcase = false
+    def camel_to_underscore s, constant = false
       result = s.gsub(/(?<!\A)./) { |m|
         Letter::is_uppercase(m) ? "_#{m}" : m
       }
-      upcase ? upcase(result) : downcase(result)
+      constant ? uppercase(result) : lowercase(result)
     end
 
     def underscore_to_camel s
-      (downcase s).gsub(/((?<=\A)|_)(\w)/) {
+      (lowercase s).gsub(/((?<=\A)|_)(\w)/) {
         titlecase $~[2]
       }
     end

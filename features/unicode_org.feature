@@ -234,6 +234,11 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     When the string is upcased with language set to ""
     Then the result is "NAÏVE ISTANBUL"
 
+  Scenario: Downcase function works properly with generic (SMALL I WITH DOT)
+    Given we have a string "NAÏVE ISTANBUL"
+    When the string is downcased with language set to ""
+    Then the result is "naïve istanbul"
+
   Scenario: Print out known conditions
     When we ask to print known conditions
     Then we print results

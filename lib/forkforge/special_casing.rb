@@ -69,10 +69,10 @@ module Forkforge
       end
     end
 
-    # get_code_point '00A0' | get_uppercase_mapping 0xA0 | ...
+    # filter_code_point '00A0' | filter_uppercase_mapping 0xA0 | ...
     SPECIAL_CASING_FIELDS.each { |method|
       class_eval %Q{
-        def filter_#{method} cp, filters = []
+        def filter_#{method}(cp, filters = [])
           return hash[ncp = normalize_cp(cp)].nil? ? \
             nil : [*hash[ncp]].select { |h|
                     filters.inject(true) { |memo, f|
@@ -80,7 +80,7 @@ module Forkforge
                     }
                   } || [*hash[ncp]].select { |h| h[:#{method}].vacant? }
         end
-        def all_#{method} pattern = nil
+        def all_#{method}(pattern = nil)
           pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
           hash.map { |k, v|
             [
@@ -94,17 +94,18 @@ module Forkforge
       }
     }
 
-    [:lowercase, :titlecase, :uppercase].each { |method|
+    [:uppercase, :lowercase, :titlecase].each { |method|
       class_eval %Q{
-        def cp_#{method} cp, lang = nil, context = nil
+        def cp_#{method}(cp, lang = nil, context = nil)
           filters = []
           filters << Regexp.new('^' + lang + '(?=\\Z|\\s)') unless lang.nil?
           filters << Regexp.new('(?<=\\A|\\s)' + context + '$') unless context.nil?
           conditions = filter_condition_list cp, filters
-          (conditions.vacant? || conditions.count != 1 || conditions.first[:uppercase_mapping].vacant? || conditions.first[:uppercase_mapping] == normalize_cp(cp)) ? \
-            cp : conditions.first[:uppercase_mapping].split(' ').map { |cpn| cp_uppercase(cpn.to_i(16), lang, context) }
+          (conditions.vacant? || conditions.count != 1 || conditions.first[:#{method}_mapping].vacant? || conditions.first[:#{method}_mapping] == normalize_cp(cp)) ? \
+            cp : conditions.first[:#{method}_mapping].split(' ').map { |cpn| cp_#{method}(cpn.to_i(16), lang, context) }
         end
-        def #{method} cp, lang = nil, context = nil
+        private :cp_#{method}
+        def #{method}(cp, lang = nil, context = nil)
           (cpm = cp_#{method}(cp, lang, context)).nil? ? nil : [*cpm].pack('U')
         end
       }

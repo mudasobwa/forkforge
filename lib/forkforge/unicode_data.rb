@@ -9,13 +9,6 @@ module Forkforge
     UNICODE_DATA_FILE = 'UnicodeData.txt'
     UNICODE_DATA_VERSION = '5.1.0'
 
-    CODEPOINT_FIELDS = {
-      origin: :code_point,
-      upcase: :uppercase_mapping,
-      downcase: :lowercase_mapping,
-      titlecase: :titlecase_mapping
-    }
-
     UNICODE_FIELDS = [
       :code_point,
       :character_name,
@@ -84,8 +77,8 @@ module Forkforge
     end
 
     # TODO return true/false whether the normalization was done?
-    def to_char cp, action = :origin
-      result = hash[normalize_cp cp][CODEPOINT_FIELDS[action]].to_s.to_i(16)
+    def to_char cp, action = :code_point
+      result = hash[normalize_cp cp][action].to_s.to_i(16)
       [result.vacant? ? (Integer === cp ? cp : cp.to_s.to_i(16)) : result].pack('U')
     end
 

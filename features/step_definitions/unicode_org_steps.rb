@@ -49,11 +49,15 @@ When(/^we ask to print known conditions$/) do
 end
 
 When(/^the string is upcased with language set to "(.*?)"$/) do |lang|
-  @output = Forkforge::Unicode::upcase @input, lang
+  @output = Forkforge::Unicode::uppercase @input, lang
+end
+
+When(/^the string is downcased with language set to "(.*?)"$/) do |lang|
+  @output = Forkforge::Unicode::lowercase @input, lang
 end
 
 When(/^the string is upcased$/) do
-  @output = Forkforge::Unicode::upcase @input
+  @output = Forkforge::Unicode::uppercase @input
 end
 
 When(/^we decompose it$/) do
@@ -65,7 +69,7 @@ When(/^we decompose it with circle tag only$/) do
 end
 
 When(/^the string is downcased$/) do
-  @output = Forkforge::Unicode::downcase @input
+  @output = Forkforge::Unicode::lowercase @input
 end
 
 When(/^the string is titlecased$/) do
