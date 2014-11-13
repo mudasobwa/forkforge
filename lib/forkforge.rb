@@ -2,12 +2,15 @@
 
 require 'forkforge/version'
 require 'forkforge/unicode_data'
+require 'forkforge/special_casing'
 
 module Forkforge
   module Unicode
-    def upcase s
+    def upcase s, lang = nil, context = nil
       s.each_codepoint.map { |cp|
-        UnicodeData::to_char cp, :upcase
+        pretendent = SpecialCasing::uppercase(cp, lang, context)
+        (pretendent.codepoints.count == 1 && pretendent.codepoints.first == cp) ? \
+         UnicodeData::to_char(cp, :upcase) : pretendent
       }.join
     end
     def downcase s

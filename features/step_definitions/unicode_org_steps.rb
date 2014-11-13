@@ -40,6 +40,18 @@ When(/^we call "(.*?)" method on Forkforge::Unicode$/) do |method|
   @output = Forkforge::Unicode::send method.to_sym, @input
 end
 
+When(/^we ask to print known conditions$/) do
+  @output = Forkforge::SpecialCasing.all_condition_list.map { |k, v|
+    v.map { |vv|
+      vv[:condition_list]
+    }
+  }.flatten.uniq
+end
+
+When(/^the string is upcased with language set to "(.*?)"$/) do |lang|
+  @output = Forkforge::Unicode::upcase @input, lang
+end
+
 When(/^the string is upcased$/) do
   @output = Forkforge::Unicode::upcase @input
 end

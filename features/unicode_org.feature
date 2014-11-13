@@ -219,6 +219,25 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     When the string is downcased
     Then the result is "мама мыла раму"
 
+  Scenario: Upcase function works properly on combined
+    Given we have a cyrillic string "naïve Álto Pàlo"
+    When the string is upcased
+    Then the result is "NAÏVE ÁLTO PÀLO"
+
+  Scenario: Upcase function works properly with Turkic (CAPITAL I WITH DOT)
+    Given we have a string "naïve istanbul"
+    When the string is upcased with language set to "tr"
+    Then the result is "NAİ̈VE İSTANBUL"
+
+  Scenario: Upcase function works properly with generic (CAPITAL I WITHOUT DOT)
+    Given we have a string "naïve istanbul"
+    When the string is upcased with language set to ""
+    Then the result is "NAÏVE ISTANBUL"
+
+  Scenario: Print out known conditions
+    When we ask to print known conditions
+    Then we print results
+
 ###############################################################################
 
 	Scenario: Lookup symbols by name

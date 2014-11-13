@@ -94,7 +94,8 @@ module Forkforge
     UNICODE_FIELDS.each { |method|
       class_eval %Q{
         def get_#{method} cp
-          hash[normalize_cp cp][:#{method}]
+          ncp = normalize_cp cp
+          return hash[ncp] ? hash[ncp][:#{method}] : nil
         end
         def all_#{method} pattern = nil
           pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
@@ -105,7 +106,7 @@ module Forkforge
 
     def decompose_cp cp, tags = []
       normalized = normalize_cp cp
-      mapping = hash[normalized][:character_decomposition_mapping]
+      mapping = get_character_decomposition_mapping cp
       return normalized if mapping.vacant?
 
       cps = mapping.split ' '

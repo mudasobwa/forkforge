@@ -1,5 +1,17 @@
 # encoding: utf-8
 
+unless NilClass.respond_to? :strip
+  class NilClass
+    def strip
+      nil
+    end
+    def match *args
+      false
+    end
+  end
+end
+
+
 class Object
   def vacant?
     self.nil? ||
