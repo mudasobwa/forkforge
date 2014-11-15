@@ -15,10 +15,10 @@ Easy UTF-8 strings manipulation.
 Up-/down-casing:
 
 ```ruby
-Forkforge::Unicode::uppercase 'naïve istanbul'
-#⇒ NAİ̈VE ISTANBUL
-Forkforge::Unicode::uppercase 'naïve istanbul', 'tr'
-#⇒ NAİ̈VE İSTANBUL
+Forkforge::Unicode::uppercase 'istanbul'
+#⇒ ISTANBUL
+Forkforge::Unicode::uppercase 'istanbul', 'tr'
+#⇒ İSTANBUL
 ```
 
 ---
