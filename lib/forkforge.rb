@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'forkforge/version'
+require 'forkforge/code_point'
 require 'forkforge/unicode_data'
 require 'forkforge/special_casing'
 

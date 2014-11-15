@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require_relative 'monkeypatches'
+require_relative 'code_point'
 require_relative 'character_decomposition_mapping'
 
 module Forkforge
@@ -9,24 +10,6 @@ module Forkforge
     UNICODE_DATA_FILE = 'UnicodeData.txt'
     UNICODE_DATA_VERSION = '5.1.0'
 
-    UNICODE_FIELDS = [
-      :code_point,
-      :character_name,
-      :general_category,
-      :canonical_combining_classes,
-      :bidirectional_category,
-      :character_decomposition_mapping,
-      :decimal_digit_value,
-      :digit_value,
-      :numeric_value,
-      :mirrored,
-      :unicode_1_0_name,
-      :_10646_comment_field,
-      :uppercase_mapping,
-      :lowercase_mapping,
-      :titlecase_mapping
-    ]
-
     @@unicode_data = nil
 
     def hash
@@ -34,7 +17,7 @@ module Forkforge
         values = line.split ';'
         [
           values.first,
-          UNICODE_FIELDS.map { |f|
+          CodePoint::UNICODE_FIELDS.map { |f|
             [ f, values.shift ]
           }.to_h
         ]
@@ -84,7 +67,7 @@ module Forkforge
 
     # get_code_point '00A0' | get_character_decomposition_mapping 0xA0 | ...
     # all_code_point /00[A-C]\d/ | get_character_decomposition_mapping /00A*/ | ...
-    UNICODE_FIELDS.each { |method|
+    CodePoint::UNICODE_FIELDS.each { |method|
       class_eval %Q{
         def get_#{method} cp
           ncp = normalize_cp cp
@@ -96,6 +79,11 @@ module Forkforge
         end
       }
     }
+
+    def compose cp, tag = :font
+      normalized = normalize_cp cp
+      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{normalized}\Z/)
+    end
 
     def decompose_cp cp, tags = []
       normalized = normalize_cp cp

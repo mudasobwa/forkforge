@@ -148,6 +148,14 @@ When(/^we construct Tag object against it$/) do
   @output = Forkforge::CharacterDecompositionMapping::Tag.new @input
 end
 
+When(/^we compose input to "(.*?)"$/) do |tag|
+  c = Forkforge::UnicodeData::compose @input.codepoints.first, "#{tag}"
+  @output = c.values.map { |v|
+    ap Forkforge::CodePoint.new(v)
+    Forkforge::CodePoint.new(v).to_s
+  }.join(',')
+end
+
 ###############################################################################
 #####    THEN
 ###############################################################################

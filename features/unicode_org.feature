@@ -291,6 +291,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	    And we print results
 
 ###############################################################################
+
   Scenario: Tag class accepts strings with tag delimiters properly
     Given we have a string "<font>"
      When we construct Tag object against it
@@ -326,3 +327,17 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
      When we add custom decomposition rule
       And we decompose it
      Then we print results
+
+###############################################################################
+
+  Scenario: Composing digit with circle
+    Given we have a string "1"
+     When we compose input to "circle"
+     Then the result is "①"
+      And we print results
+
+  Scenario: Composing letter with font
+    Given we have a string "a"
+     When we compose input to "font"
+     Then the result is "𝐚,𝑎,𝒂,𝒶,𝓪,𝔞,𝕒,𝖆,𝖺,𝗮,𝘢,𝙖,𝚊"
+      And we print results

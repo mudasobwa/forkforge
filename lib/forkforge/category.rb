@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require_relative 'code_point'
 require_relative 'unicode_data'
 
 module Forkforge
@@ -22,7 +23,7 @@ module Forkforge
             s.respond_to?(:scan) ? s.scan(Regexp.new(@@#{type.last}_array.join '|')) : @@#{type.last}_array
           end
         }
-        UnicodeData::UNICODE_FIELDS.each { |method|
+        CodePoint::UNICODE_FIELDS.each { |method|
           base.class_eval %Q{
             def #{type.last}_#{method}
               @@#{type.last}_#{method} ||= #{type.last}_raw.map { |k, v|
