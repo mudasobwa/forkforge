@@ -39,4 +39,57 @@ module Forkforge
       "#{to_s} ⇒ #{@character_name}"
     end
   end
+
+  class CodePoints
+    def initialize hash
+      @hash = hash
+    end
+
+    def filter field, pattern = nil
+      pattern = case pattern
+                when NilClass then /\A.+/ # not empty
+                when Regexp   then pattern
+                else Regexp.new(pattern)
+                end
+      @hash.select { |k, v|
+        v[field.to_sym] =~ pattern
+      }
+    end
+    private :filter
+
+    def select field, pattern = nil
+      CodePoints.new filter field, pattern
+    end
+
+    def inspect
+      @hash.inspect
+    end
+
+    def to_s
+      @hash.values.map { |v|
+        CodePoint.new(v).to_s
+      }.join
+    end
+
+    def method_missing method, *args, &block
+      m, rest = "#{method}".split '_', 2
+      if args.count <= 1 && !(result = filter :character_name, /#{m}/i).empty?
+        result.select! { |k, v|
+          v[:character_decomposition_mapping] =~ case args.first
+            when String then /#{args.first.codepoints.map { |cp| '%04X' % cp }.join('|')}\Z/
+            when Integer then /#{'%04X' % cp}/
+            when Regexp then args.first
+            else /#{args.first}/
+            end
+        } if args.count > 0
+        result.each do |k, v|
+          yield CodePoint.new v
+        end if block_given? && !rest.nil?
+        result = CodePoints.new(result)
+        rest.nil? ? result : result.send(rest.to_sym)
+      else
+        super
+      end
+    end
+  end
 end

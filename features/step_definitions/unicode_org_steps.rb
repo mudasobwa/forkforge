@@ -77,7 +77,7 @@ When(/^the string is titlecased$/) do
 end
 
 When(/^the file is requested$/) do
-  @raw = Forkforge::UnicodeData::raw
+  @raw = Forkforge::UnicodeData::send :raw
 end
 
 When(/^we call all_character_decomposition_mapping on Forkforge::UnicodeData$/) do
@@ -151,9 +151,12 @@ end
 When(/^we compose input to "(.*?)"$/) do |tag|
   c = Forkforge::UnicodeData::compose @input.codepoints.first, "#{tag}"
   @output = c.values.map { |v|
-    ap Forkforge::CodePoint.new(v)
     Forkforge::CodePoint.new(v).to_s
   }.join(',')
+end
+
+When(/^we call "(.*?)" method on Forkforge::CodePoints for "(.*?)"$/) do |method, sym|
+  @output = Forkforge::UnicodeData::code_points.send(method.to_sym, sym)
 end
 
 ###############################################################################
@@ -167,6 +170,10 @@ end
 
 Then(/^the result is "(.*?)"$/) do |result|
   expect(@output).to eq(result)
+end
+
+Then(/^the result to string is "(.*?)"$/) do |result|
+  expect(@output.to_s).to eq(result)
 end
 
 Then(/^the result count equals to (\d+)$/) do |count|

@@ -341,3 +341,56 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
      When we compose input to "font"
      Then the result is "𝐚,𝑎,𝒂,𝒶,𝓪,𝔞,𝕒,𝖆,𝖺,𝗮,𝘢,𝙖,𝚊"
       And we print results
+
+  Scenario: Composing letter with wide
+    Given we have a string "a"
+     When we compose input to "wide"
+     Then the result is "ａ"
+      And we print results
+
+  Scenario: Composing letter with super
+    Given we have a string "a"
+     When we compose input to "super"
+     Then we print results
+      And the result is "ª,ᵃ"
+
+  Scenario: Composing letter with sub
+    Given we have a string "a"
+     When we compose input to "sub"
+     Then we print results
+      And the result is "ₐ"
+
+  Scenario: Composing letter with vertical
+    Given we have a string "?"
+     When we compose input to "vertical"
+     Then we print results
+      And the result is "︖"
+
+  Scenario: Composing letter with small
+    Given we have a string "?"
+     When we compose input to "small"
+     Then we print results
+      And the result is "﹖"
+
+  Scenario: Composing letter with compat
+    Given we have a string "µ"
+     When we compose input to "compat"
+     Then we print results
+      And the result is ""
+
+###############################################################################
+
+  Scenario: Code points method missing works on latin letters
+    When we call "math" method on Forkforge::CodePoints for "b"
+    Then we print results
+     And the result to string is "𝐛𝑏𝒃𝒷𝓫𝔟𝕓𝖇𝖻𝗯𝘣𝙗𝚋"
+
+  Scenario: Code points method missing works on strings
+    When we call "math" method on Forkforge::CodePoints for "abc"
+    Then we print results
+     And the result to string is "𝐚𝐛𝐜𝑎𝑏𝑐𝒂𝒃𝒄𝒶𝒷𝒸𝓪𝓫𝓬𝔞𝔟𝔠𝕒𝕓𝕔𝖆𝖇𝖈𝖺𝖻𝖼𝗮𝗯𝗰𝘢𝘣𝘤𝙖𝙗𝙘𝚊𝚋𝚌"
+
+  Scenario: Code points method missing chained works on strings
+    When we call "math_fraktur_bold" method on Forkforge::CodePoints for "abc"
+    Then we print results
+     And the result to string is "𝖆𝖇𝖈"

@@ -45,6 +45,11 @@ module Forkforge
       end
       raw
     end
+    private :raw
+
+    def code_points
+      CodePoints.new hash
+    end
 
     def normalize_cp cp
       Integer === cp ? '%04X' % cp : cp

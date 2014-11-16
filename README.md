@@ -19,7 +19,19 @@ Forkforge::Unicode::uppercase 'istanbul'
 #⇒ ISTANBUL
 Forkforge::Unicode::uppercase 'istanbul', 'tr'
 #⇒ İSTANBUL
+Forkforge::UnicodeData::code_points.math 'abc'
+#⇒ 𝐚𝐛𝐜𝑎𝑏𝑐𝒂𝒃𝒄𝒶𝒷𝒸𝓪𝓫𝓬𝔞𝔟𝔠𝕒𝕓𝕔𝖆𝖇𝖈𝖺𝖻𝖼𝗮𝗯𝗰𝘢𝘣𝘤𝙖𝙗𝙘𝚊𝚋𝚌
+Forkforge::UnicodeData::code_points.math.franktur.bold 'abc'
+#⇒ 𝖆𝖇𝖈
+Forkforge::UnicodeData::code_points.franktur_math_bold 'abc'
+#⇒ 𝖆𝖇𝖈
+Forkforge::UnicodeData::compose('1'.codepoints.first, :circle).values.map { |v|
+  Forkforge::CodePoint.new(v).to_s
+}.join
+#⇒ ①
 ```
+
+The handy methods like `String#compose` and `String#franktur_math` are pending.
 
 ---
 
