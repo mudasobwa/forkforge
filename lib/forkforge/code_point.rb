@@ -65,6 +65,15 @@ module Forkforge
       @hash.inspect
     end
 
+    def to_a
+      @hash.values
+    end
+
+    # FIXME is is shallow or deep copy?
+    def to_h
+      @hash.dup
+    end
+
     def to_s
       @hash.values.map { |v|
         CodePoint.new(v).to_s

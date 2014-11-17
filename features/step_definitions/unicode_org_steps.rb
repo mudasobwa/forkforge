@@ -76,10 +76,6 @@ When(/^the string is titlecased$/) do
   @output = Forkforge::Unicode::titlecase @input
 end
 
-When(/^the file is requested$/) do
-  @raw = Forkforge::UnicodeData::send :raw
-end
-
 When(/^we call all_character_decomposition_mapping on Forkforge::UnicodeData$/) do
   @output = Forkforge::UnicodeData::all_character_decomposition_mapping
 end
@@ -137,7 +133,7 @@ When(/^result is set to response from "(.*?)" function call$/) do |method|
 end
 
 When(/^we retrieve it’s info$/) do
-  @output = Forkforge::UnicodeData::info @input
+  @output = Forkforge::UnicodeData::info(@input)[:character_name]
 end
 
 When(/^we add custom decomposition rule$/) do

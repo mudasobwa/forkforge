@@ -1,73 +1,39 @@
 # encoding: utf-8
 
 require_relative 'monkeypatches'
+require_relative 'internal/unicode_org_file'
 require_relative 'code_point'
 require_relative 'character_decomposition_mapping'
 
 module Forkforge
   module UnicodeData
-    LOCATION = 'data'
-    UNICODE_DATA_FILE = 'UnicodeData.txt'
-    UNICODE_DATA_VERSION = '5.1.0'
+    include UnicodeOrgFileFormat
 
-    @@unicode_data = nil
+    LOCAL = 'data'
+    REMOTE = 'Public/UCD/latest'
+    FILE = 'UnicodeData.txt'
 
     def hash
-      @@unicode_data = raw.split(/\R/).map do |line|
-        values = line.split ';'
-        [
-          values.first,
-          CodePoint::UNICODE_FIELDS.map { |f|
-            [ f, values.shift ]
-          }.to_h
-        ]
-      end.to_h if @@unicode_data.nil?
-      @@unicode_data
+      __hash REMOTE, LOCAL, FILE, CodePoint::UNICODE_FIELDS, false
     end
-    private :hash
-
-    def raw
-      if File.exist? "#{LOCATION}/#{UNICODE_DATA_FILE}"
-        raw = File.read "#{LOCATION}/#{UNICODE_DATA_FILE}"
-      else
-        require 'net/http'
-        Net::HTTP.start('www.unicode.org') do |http|
-          resp = http.get "/Public/#{UNICODE_DATA_VERSION}/ucd/#{UNICODE_DATA_FILE}"
-          if !File.exist? LOCATION
-            require 'fileutils'
-            FileUtils.mkpath LOCATION
-          end
-          open("#{LOCATION}/#{UNICODE_DATA_FILE}", "wb") do |file|
-            raw = resp.body
-            file.write raw
-          end
-        end
-      end
-      raw
-    end
-    private :raw
 
     def code_points
       CodePoints.new hash
     end
 
-    def normalize_cp cp
-      Integer === cp ? '%04X' % cp : cp
+    def info cp
+      cp = cp.codepoints.first if String === cp && cp.length == 1
+      hash[__to_code_point(cp)]
     end
-    private :normalize_cp
 
-    def info s
-      case s
-      when String then s.each_codepoint.map { |cp| hash[normalize_cp cp] }
-      when Integer then [hash[normalize_cp s]]
-      else nil
-      end
+    def infos string
+      string.each_codepoint.map { |cp| hash[__to_code_point(cp)] }
     end
 
     # TODO return true/false whether the normalization was done?
     def to_char cp, action = :code_point
-      result = hash[normalize_cp cp][action].to_s.to_i(16)
-      [result.vacant? ? (Integer === cp ? cp : cp.to_s.to_i(16)) : result].pack('U')
+      elem = hash[__to_code_point(cp)]
+      __to_char(elem[action].vacant? ? elem[:code_point] : elem[action])
     end
 
     # get_code_point '00A0' | get_character_decomposition_mapping 0xA0 | ...
@@ -75,7 +41,7 @@ module Forkforge
     CodePoint::UNICODE_FIELDS.each { |method|
       class_eval %Q{
         def get_#{method} cp
-          ncp = normalize_cp cp
+          ncp = __to_code_point cp
           return hash[ncp] ? hash[ncp][:#{method}] : nil
         end
         def all_#{method} pattern = nil
@@ -86,12 +52,11 @@ module Forkforge
     }
 
     def compose cp, tag = :font
-      normalized = normalize_cp cp
-      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{normalized}\Z/)
+      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{__to_code_point cp}\Z/)
     end
 
     def decompose_cp cp, tags = []
-      normalized = normalize_cp cp
+      normalized = __to_code_point cp
       mapping = get_character_decomposition_mapping cp
       return normalized if mapping.vacant?
 

@@ -41,7 +41,7 @@ module Forkforge
     def decompose s, tags = []
       s.each_codepoint.map { |cp|
         Forkforge::UnicodeData::decompose_cp cp, tags
-      }
+      }.flatten.map{ |ch| UnicodeData.to_char(ch) }.join
     end
 
     extend self

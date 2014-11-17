@@ -14,7 +14,7 @@ module Forkforge
             @@#{type.last} ||= Forkforge::UnicodeData::all_general_category /#{type.first}/
           end
           def is_#{type.last} s
-            UnicodeData::info(s).inject(true) { |memo, kv|
+            UnicodeData::infos(s).inject(true) { |memo, kv|
               memo &&= kv[:general_category] == "#{type.first}"
             }
           end

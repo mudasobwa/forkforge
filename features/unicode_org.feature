@@ -2,11 +2,6 @@
 
 Feature: UnicodeData.txt file is to be used locally until it’s absent
 
-  Scenario: Create a file in "data" directory with "UnicodeData.txt" content
-    Given we have no local copy of the "data/UnicodeData.txt" file
-    When the file is requested
-    Then the file is got from www.unicode.org/Public/5.1.0/ucd/UnicodeData.txt is printed out
-
 	Scenario: Get all composed symbols
 		When we call all_character_decomposition_mapping on Forkforge::UnicodeData
 		Then the result count equals to 5405
@@ -281,14 +276,14 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	Scenario: Print info on symbol
 	  Given we have a symbol "〷"
 	   When we retrieve it’s info
-		 Then the result count equals to 1
-	    And we print results
+		 Then we print results
+		  And the result is "IDEOGRAPHIC TELEGRAPH LINE FEED SEPARATOR SYMBOL"
 
 	Scenario: Print info on symbol on it’s codebase
 	  Given we have a symbol with codebase "0x3037"
 	   When we retrieve it’s info
-		 Then the result count equals to 1
-	    And we print results
+		 Then we print results
+			And the result is "IDEOGRAPHIC TELEGRAPH LINE FEED SEPARATOR SYMBOL"
 
 ###############################################################################
 
@@ -311,16 +306,19 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     Given we have a string "Barçelona Niños"
      When we decompose it
      Then we print results
+		  And the result is "Barçelona Niños"
 
   Scenario: Decompose symbols with <font>
     Given we have a string "ℂool"
      When we decompose it
      Then we print results
+			And the result is "Cool"
 
   Scenario: Decompose symbols with <font>
     Given we have a string "ℂool"
      When we decompose it with circle tag only
      Then we print results
+			And the result is "ℂool"
 
   Scenario: Add custom decomposition symbols
     Given we have a string "Мáма"
