@@ -188,7 +188,7 @@ Then(/^the result’s first element nested count is "(.*?)"$/) do |count|
   expect(@output.values[0].count).to eq(count.to_i)
 end
 
-Then(/^we print first "(.*?)" results$/) do |count|
+Then(/^we print first (\d+) results$/) do |count|
   puts @output.take count.to_i
 end
 

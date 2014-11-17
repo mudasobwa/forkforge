@@ -4,7 +4,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all composed symbols
 		When we call all_character_decomposition_mapping on Forkforge::UnicodeData
-		Then the result count equals to 5405
+		Then the result count equals to 5721
 
 ###############################################################################
 
@@ -22,12 +22,12 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
   Scenario: Get all specific letter: uppercase
     When we call "uppercase" method on Forkforge::Letter
-    Then the result count equals to 1421
+    Then the result count equals to 1490
      And the first item equals to "A"
 
 	Scenario: Get all specific letter: lowercase
 		When we call "lowercase" method on Forkforge::Letter
-		Then the result count equals to 1748
+		Then the result count equals to 1841
 		 And the first item equals to "a"
 
 	Scenario: Get all specific letter: titlecase
@@ -37,28 +37,28 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all specific letter: modifier
 		When we call "modifier" method on Forkforge::Letter
-		Then the result count equals to 187
+		Then the result count equals to 248
 		 And the first item equals to "ʰ"
 
 	Scenario: Get all specific letter: others
 		When we call "other" method on Forkforge::Letter
-		Then the result count equals to 8679
-		 And the first item equals to "ƻ"
+		Then the result count equals to 13350
+		 And the first item equals to "ª"
 
 	Scenario: Get all codepoints for uppercased letters
 	  When we call uppercase_code_point on Forkforge::Letter
-	  Then we print results
+	  Then we print first 10 results
 
 ###############################################################################
 
 	Scenario: Get all specific marks: non-spacing
 		When we call "non_spacing" method on Forkforge::Mark
-		Then the result count equals to 1032
+		Then the result count equals to 1418
 		 And the first item equals to "̀"
 
 	Scenario: Get all specific marks: spacing combining
 		When we call "spacing_combining" method on Forkforge::Mark
-		Then the result count equals to 236
+		Then the result count equals to 399
 		 And the first item equals to "ः"
 
 	Scenario: Get all specific marks: enclosing
@@ -70,17 +70,17 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all specific numbers: decimal digit
 		When we call "decimal_digit" method on Forkforge::Number
-		Then the result count equals to 370
+		Then the result count equals to 540
 		 And the first item equals to "0"
 
 	Scenario: Get all specific numbers: letter
 		When we call "letter" method on Forkforge::Number
-		Then the result count equals to 214
+		Then the result count equals to 236
 		 And the first item equals to "ᛮ"
 
 	Scenario: Get all specific numbers: other
 		When we call "other" method on Forkforge::Number
-		Then the result count equals to 349
+		Then the result count equals to 570
 		 And the first item equals to "²"
 
 ###############################################################################
@@ -92,17 +92,17 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all specific punctuation: dashes
 		When we call "dash" method on Forkforge::Punctuation
-		Then the result count equals to 20
+		Then the result count equals to 24
 		 And the first item equals to "-"
 
 	Scenario: Get all specific punctuation: opens
 		When we call "open" method on Forkforge::Punctuation
-		Then the result count equals to 72
+		Then the result count equals to 75
 		 And the first item equals to "("
 
 	Scenario: Get all specific punctuation: closes
 		When we call "close" method on Forkforge::Punctuation
-		Then the result count equals to 71
+		Then the result count equals to 73
 		 And the first item equals to ")"
 
 	Scenario: Get all specific punctuation: initial_quotes
@@ -117,36 +117,36 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all specific punctuation: others
 		When we call "other" method on Forkforge::Punctuation
-		Then the result count equals to 315
+		Then the result count equals to 484
 		 And the first item equals to "!"
 
 ###############################################################################
 
 	Scenario: Get all specific symbols: math
 		When we call "math" method on Forkforge::Symbol
-		Then the result count equals to 945
+		Then the result count equals to 948
 		 And the first item equals to "+"
 
 	Scenario: Get all specific symbols: currency
 		When we call "currency" method on Forkforge::Symbol
-		Then the result count equals to 41
+		Then the result count equals to 52
 		 And the first item equals to "$"
 
 	Scenario: Get all specific symbols: modifier
 		When we call "modifier" method on Forkforge::Symbol
-		Then the result count equals to 99
+		Then the result count equals to 116
 		 And the first item equals to "^"
 
 	Scenario: Get all specific symbols: other
 		When we call "other" method on Forkforge::Symbol
-		Then the result count equals to 3225
+		Then the result count equals to 5082
 		 And the first item equals to "¦"
 
 ###############################################################################
 
 	Scenario: Get all specific separators: space
 		When we call "space" method on Forkforge::Separator
-		Then the result count equals to 18
+		Then the result count equals to 17
 		 And the first item equals to " "
 
 	Scenario: Get all specific separators: line
@@ -167,7 +167,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all specific others: format
 		When we call "format" method on Forkforge::Other
-		Then the result count equals to 139
+		Then the result count equals to 150
 		 And the first item equals to "­"
 
 	Scenario: Get all specific others: surrogate
@@ -193,7 +193,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 
 	Scenario: Get all dashes with their names
 		When we call "dash_character_name" method on Forkforge::Punctuation
-		Then the result count equals to 20
+		Then the result count equals to 24
 		 And the first item’s value equals to "HYPHEN-MINUS"
 
 ###############################################################################
@@ -248,30 +248,30 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	Scenario: Lookup symbols by name
 	  Given we have a pattern "RING ABOVE"
 	   When lookup using all_character_name is done with this pattern
-	   Then we print first "2" results
+	   Then we print first 2 results
 
 	Scenario: Lookup symbols with tagged character_name
 	  Given we have a pattern looking like a tag
 	   When lookup using all_character_name is done with this pattern
-	   Then we print first "1" results
+	   Then we print first 1 results
 
 	Scenario: Lookup tag names using character_name
 	  Given we have a pattern looking like a tag
 	   When result is filtered to show tags
-		 Then the result count equals to 21
-	    And we print first "21" results
+		 Then the result count equals to 25
+	    And we print first 21 results
 
 	Scenario: Lookup tags using character_name
 	  Given we have a pattern looking like a tag
 	   When result is filtered to show tagged characters
-		 Then the result count equals to 21
+		 Then the result count equals to 25
 	    And the result’s first element nested count is "65"
 
 	Scenario: Lookup tags using meta method
 	  Given we have a pattern looking like a tag
 	   When result is set to response from "control" function call
 		 Then the result count equals to 65
-	    And we print first "1" results
+	    And we print first 1 results
 
 	Scenario: Print info on symbol
 	  Given we have a symbol "〷"

@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-require_relative 'monkeypatches'
 require_relative 'internal/unicode_org_file'
+require_relative 'monkeypatches'
 require_relative 'code_point'
 require_relative 'character_decomposition_mapping'
 
@@ -10,7 +10,7 @@ module Forkforge
     include UnicodeOrgFileFormat
 
     LOCAL = 'data'
-    REMOTE = 'Public/UCD/latest'
+    REMOTE = 'Public/UCD/latest/ucd'
     FILE = 'UnicodeData.txt'
 
     def hash
