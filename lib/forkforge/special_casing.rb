@@ -20,7 +20,7 @@ module Forkforge
     ]
 
     def hash
-      __hash REMOTE, LOCAL, FILE, SPECIAL_CASING_FIELDS
+      i_hash REMOTE, LOCAL, FILE, SPECIAL_CASING_FIELDS
     end
 
     # filter_code_point '00A0' | filter_uppercase_mapping 0xA0 | ...

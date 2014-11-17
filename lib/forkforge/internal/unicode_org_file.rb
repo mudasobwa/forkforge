@@ -4,9 +4,9 @@ module Forkforge
   module UnicodeOrgFileFormat
     HOST = 'www.unicode.org'
 
-    @@hash = {}
+    @@hashmap = {}
 
-    def __grab remote_folder, local_folder, file
+    def i_grab remote_folder, local_folder, file
       require 'net/http'
       Net::HTTP.start(HOST) do |http|
         resp = http.get "/#{remote_folder}/#{file}"
@@ -19,18 +19,18 @@ module Forkforge
         end
       end
     end
-    private :__grab
+    private :i_grab
 
-    def __load remote_folder, local_folder, file
-      __grab(remote_folder, local_folder, file) unless File.exist? "#{local_folder}/#{file}"
+    def i_load remote_folder, local_folder, file
+      i_grab(remote_folder, local_folder, file) unless File.exist? "#{local_folder}/#{file}"
       File.read "#{local_folder}/#{file}"
     end
-    private :__load
+    private :i_load
 
-    def __hash remote_folder, local_folder, file, fields, arrayize = true
-      if @@hash[self].nil?
-        @@hash[self] = {}
-        __load(remote_folder, local_folder, file).split(/\R/).each do |line|
+    def i_hash remote_folder, local_folder, file, fields, arrayize = true
+      if @@hashmap[self.name].nil?
+        @@hashmap[self.name] = {}
+        i_load(remote_folder, local_folder, file).split(/\R/).each do |line|
           # comment is always last, while the amount of fields is subject to change
           comment = line.scan(/(?<=#).*?$/).first.strip
           line.gsub!(/;\s*#.*$/, '') unless comment.nil?
@@ -40,13 +40,13 @@ module Forkforge
                     [ f, values.shift.strip ]
                   } + [[ :comment, comment ]]).to_h
           arrayize ? \
-            (@@hash[self][key] ||= []) << value : \
-            @@hash[self][key] = value
+            (@@hashmap[self.name][key] ||= []) << value : \
+            @@hashmap[self.name][key] = value
         end
       end
-      @@hash[self]
+      @@hashmap[self.name]
     end
-    protected :__hash
+    private :i_hash
 
     def __to_code_point cp
       cp = cp.to_s(16) if Integer === cp

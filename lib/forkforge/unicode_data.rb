@@ -14,7 +14,7 @@ module Forkforge
     FILE = 'UnicodeData.txt'
 
     def hash
-      __hash REMOTE, LOCAL, FILE, CodePoint::UNICODE_FIELDS, false
+      i_hash(REMOTE, LOCAL, FILE, CodePoint::UNICODE_FIELDS, false)
     end
 
     def code_points
