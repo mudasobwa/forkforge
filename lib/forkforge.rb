@@ -38,10 +38,33 @@ module Forkforge
       }
     end
 
+    # FIXME CURRENTLY WORKS ONLY ON ASCII
+    def compose s, tag = :font, format = :full
+      composed = s.codepoints.map { |cp|
+        Forkforge::UnicodeData::compose_cp cp, tag
+      }
+      raise ::Error.new("AMBIGUITIES FOUND, FIXME FIXME FIXME") if format == :lazy && (composed.flatten.length != s.length)
+
+      case format
+      when :full then Hash[s.split('').map.with_index { |ch, idx| [ch, composed[idx]] }]
+      when :lazy, :risk then composed.map(&:first).join
+      else composed
+      end
+    end
+
+    [:circle, :super, :sub, :wide].each { |m|
+      class_eval %Q{
+        def #{m} s
+          compose s, :#{m}, :risk
+        end
+      }
+    }
+
+    # Decomposes symbols to their combined representation, e.g. ASCII c-cedilla to 2 symbols
     def decompose s, tags = []
-      s.each_codepoint.map { |cp|
+      s.codepoints.map { |cp|
         Forkforge::UnicodeData::decompose_cp cp, tags
-      }.flatten.map{ |ch| UnicodeData.to_char(ch) }.join
+      }.flatten.map { |ch| UnicodeData.to_char(ch) }.join
     end
 
     extend self

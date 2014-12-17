@@ -145,10 +145,7 @@ When(/^we construct Tag object against it$/) do
 end
 
 When(/^we compose input to "(.*?)"$/) do |tag|
-  c = Forkforge::UnicodeData::compose @input.codepoints.first, "#{tag}"
-  @output = c.values.map { |v|
-    Forkforge::CodePoint.new(v).to_s
-  }.join(',')
+  @output = (Forkforge::Unicode::compose @input, "#{tag}").values.join(',')
 end
 
 When(/^we call "(.*?)" method on Forkforge::CodePoints for "(.*?)"$/) do |method, sym|

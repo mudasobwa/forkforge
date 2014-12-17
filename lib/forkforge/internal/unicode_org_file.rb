@@ -49,7 +49,10 @@ module Forkforge
     private :i_hash
 
     def __to_code_point cp
-      cp = cp.to_s(16) if Integer === cp
+      case cp
+      when Integer then cp = cp.to_s(16)
+      when Forkforge::CodePoint then cp = cp.code_point
+      end
       '%04X' % cp.to_i(16)
     end
 

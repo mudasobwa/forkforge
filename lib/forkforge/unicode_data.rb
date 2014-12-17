@@ -51,8 +51,10 @@ module Forkforge
       }
     }
 
-    def compose cp, tag = :font
-      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{__to_code_point cp}\Z/)
+    def compose_cp cp, tag = :font
+      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{__to_code_point cp}\Z/).values.map { |_cp|
+        Forkforge::CodePoint.new(_cp)
+      }
     end
 
     def decompose_cp cp, tags = []

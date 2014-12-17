@@ -36,7 +36,7 @@ module Forkforge
       [@code_point.to_i(16)].pack('U')
     end
     def inspect
-      "#{to_s} ⇒ #{@character_name}"
+      "'#{to_s}' ⇒ [#{@character_name}]"
     end
   end
 
