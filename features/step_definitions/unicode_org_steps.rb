@@ -148,6 +148,14 @@ When(/^we compose input to "(.*?)"$/) do |tag|
   @output = (Forkforge::Unicode::compose @input, "#{tag}").values.join(',')
 end
 
+When(/^we widify input$/) do
+  @output = Forkforge::Unicode::wide @input
+end
+
+When(/^we circlefy input$/) do
+  @output = Forkforge::Unicode::circle @input
+end
+
 When(/^we call "(.*?)" method on Forkforge::CodePoints for "(.*?)"$/) do |method, sym|
   @output = Forkforge::UnicodeData::code_points.send(method.to_sym, sym)
 end

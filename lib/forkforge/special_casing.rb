@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative 'monkeypatches'
+require_relative 'internal/monkeypatches'
 
 module Forkforge
   module SpecialCasing

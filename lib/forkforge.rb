@@ -6,6 +6,9 @@ require 'forkforge/unicode_data'
 require 'forkforge/special_casing'
 
 module Forkforge
+  class UnicodeException < Exception
+  end
+
   module Unicode
     [:uppercase, :lowercase, :titlecase].each { |method|
       class_eval %Q{
@@ -38,16 +41,26 @@ module Forkforge
       }
     end
 
-    # FIXME CURRENTLY WORKS ONLY ON ASCII
+    # As an opposite to decomposition: composes symbols using given string and tag (when possible).
+    # This function is not intended to be used directly. Normally one uses one of aliases:
+    #   - circle
+    #   - super
+    #   - sub
+    #   - wide
+    #
+    # NB This is not a composition as it is understood by Unicode.Org (love them.)
     def compose s, tag = :font, format = :full
       composed = s.codepoints.map { |cp|
-        Forkforge::UnicodeData::compose_cp cp, tag
+        (result = Forkforge::UnicodeData::compose_cp(cp, tag)).vacant? ? [Forkforge::UnicodeData::to_codepoint(cp)] : result
       }
-      raise ::Error.new("AMBIGUITIES FOUND, FIXME FIXME FIXME") if format == :lazy && (composed.flatten.length != s.length)
+
+      raise UnicodeException, "AMBIGUITIES FOUND, FIXME FIXME FIXME" \
+        if format == :lazy && (composed.length != s.length)
 
       case format
-      when :full then Hash[s.split('').map.with_index { |ch, idx| [ch, composed[idx]] }]
-      when :lazy, :risk then composed.map(&:first).join
+      when :full then Hash[s.split('').map.with_index { |ch, idx| [[ch,idx], composed[idx]] }]
+      when :lazy then composed.join
+      when :risk then composed.map(&:first).join
       else composed
       end
     end
@@ -55,7 +68,7 @@ module Forkforge
     [:circle, :super, :sub, :wide].each { |m|
       class_eval %Q{
         def #{m} s
-          compose s, :#{m}, :risk
+          compose decompose(s), :#{m}, :lazy
         end
       }
     }
@@ -64,7 +77,7 @@ module Forkforge
     def decompose s, tags = []
       s.codepoints.map { |cp|
         Forkforge::UnicodeData::decompose_cp cp, tags
-      }.flatten.map { |ch| UnicodeData.to_char(ch) }.join
+      }.flatten.map { |cp| cp.to_i(16) }.pack('U*')
     end
 
     extend self

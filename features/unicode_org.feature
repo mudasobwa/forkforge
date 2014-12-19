@@ -438,7 +438,30 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     Given we have a string "µ"
      When we compose input to "compat"
      Then we print results
-      And the result is ""
+      And the result is "µ"
+
+###############################################################################
+
+	@compose @complex
+	Scenario: Composing text with wide
+		Given we have a string "Hola, Barçelona!"
+		When we compose input to "wide"
+		Then we print results
+			And the result is "Ｈ,ｏ,ｌ,ａ,，,　,Ｂ,ａ,ｒ,ç,ｅ,ｌ,ｏ,ｎ,ａ,！"
+
+	@compose @complex
+	Scenario: Composing text with wide (direct call)
+		Given we have a string "Hola, Barçelona!"
+		When we widify input
+		Then we print results
+			And the result is "Ｈｏｌａ，　Ｂａｒｃ̧ｅｌｏｎａ！"
+
+	@compose @complex
+	Scenario: Composing text with circle (direct call)
+		Given we have a string "Hola, Barçelona!"
+		When we circlefy input
+		Then we print results
+			And the result is "Ⓗⓞⓛⓐ, Ⓑⓐⓡⓒ̧ⓔⓛⓞⓝⓐ!"
 
 ###############################################################################
 

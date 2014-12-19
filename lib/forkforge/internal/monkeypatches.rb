@@ -11,7 +11,6 @@ unless NilClass.respond_to? :strip
   end
 end
 
-
 class Object
   def vacant?
     self.nil? ||

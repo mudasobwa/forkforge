@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require_relative 'internal/unicode_org_file'
-require_relative 'monkeypatches'
+require_relative 'internal/monkeypatches'
 require_relative 'code_point'
 require_relative 'character_decomposition_mapping'
 
@@ -27,13 +27,17 @@ module Forkforge
     end
 
     def infos string
-      string.each_codepoint.map { |cp| hash[__to_code_point(cp)] }
+      string.codepoints.map { |cp| hash[__to_code_point(cp)] }
     end
 
     # TODO return true/false whether the normalization was done?
     def to_char cp, action = :code_point
       elem = hash[__to_code_point(cp)]
       __to_char(elem[action].vacant? ? elem[:code_point] : elem[action])
+    end
+
+    def to_codepoint cp
+      Forkforge::CodePoint.new info cp
     end
 
     # get_code_point '00A0' | get_character_decomposition_mapping 0xA0 | ...
@@ -52,8 +56,8 @@ module Forkforge
     }
 
     def compose_cp cp, tag = :font
-      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{__to_code_point cp}\Z/).values.map { |_cp|
-        Forkforge::CodePoint.new(_cp)
+      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{__to_code_point cp}\Z/).values.map { |uf|
+        Forkforge::CodePoint.new(uf)
       }
     end
 

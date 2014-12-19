@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require_relative 'monkeypatches'
 require_relative 'unicode_data'
 
 module Forkforge
