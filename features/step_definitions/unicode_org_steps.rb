@@ -160,6 +160,14 @@ When(/^we call "(.*?)" method on Forkforge::CodePoints for "(.*?)"$/) do |method
   @output = Forkforge::UnicodeData::code_points.send(method.to_sym, sym)
 end
 
+When(/^the string is directly widefied$/) do
+  @output = @input.compose_wide
+end
+
+When(/^the string is directly upcased$/) do
+  @output = @input.upcase
+end
+
 ###############################################################################
 #####    THEN
 ###############################################################################

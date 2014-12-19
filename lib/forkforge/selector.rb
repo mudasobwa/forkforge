@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-require 'forkforge'
-require 'awesome_print'
+require 'forkforge/unicode'
 
 module Forkforge
   module Selector
@@ -39,12 +38,7 @@ module Forkforge
 
     # E. g. def control ⇒ [ ALL_ITEMS_WITH_CONTROL_NAME ]
     CHARACTERS.each { |k, v|
-      tc = k.downcase.gsub(/^<|>$/, '').gsub(/\W/, '_')
-      class_eval %Q{
-        def #{tc}
-          #{v}
-        end
-      }
+      define_method(k.downcase.gsub(/^<|>$/, '').gsub(/\W/, '_')) { v }
     }
   end
 

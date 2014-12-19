@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative 'unicode_data'
+require 'forkforge/internal/unicode_data'
 
 module Forkforge
 

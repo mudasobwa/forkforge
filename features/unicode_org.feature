@@ -482,3 +482,19 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
     When we call "math_fraktur_bold" method on Forkforge::CodePoints for "abc"
     Then we print results
      And the result to string is "𝖆𝖇𝖈"
+
+###############################################################################
+
+	@monkey
+	Scenario: String monkeypatches (wide)
+		Given we have a string "CamelCasedString"
+		When the string is directly widefied
+		Then the result is "ＣａｍｅｌＣａｓｅｄＳｔｒｉｎｇ"
+
+	@monkey
+	Scenario: String monkeypatches (upcase on cyrillics)
+		Given we have a string "МАМА мыла РАМУ"
+		When the string is directly upcased
+		Then the result is "МАМА МЫЛА РАМУ"
+
+###############################################################################

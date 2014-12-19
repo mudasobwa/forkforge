@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-require_relative 'code_point'
-require_relative 'unicode_data'
+require 'forkforge/internal/code_point'
+require 'forkforge/internal/unicode_data'
 
 module Forkforge
   module Category

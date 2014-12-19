@@ -15,7 +15,7 @@ module Forkforge
           s.each_codepoint.map { |cp|
             pretendent = SpecialCasing::#{method}(cp, lang, context)
             (pretendent.codepoints.count == 1 && pretendent.codepoints.first == cp) ? \
-             UnicodeData::to_char(cp, :#{method}_mapping) : pretendent
+              UnicodeData::to_char(cp, :#{method}_mapping) : pretendent
           }.join
         end
       }
@@ -65,10 +65,8 @@ module Forkforge
     end
 
     [:circle, :super, :sub, :wide].each { |m|
-      class_eval %Q{
-        def #{m} s
-          compose decompose(s), :#{m}, :lazy
-        end
+      define_method(m) { |s|
+          compose decompose(s), m.to_sym, :lazy
       }
     }
 

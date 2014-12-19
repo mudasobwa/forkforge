@@ -80,6 +80,11 @@ module Forkforge
       }.join
     end
 
+    def respond_to? method
+      m = "#{method}".split '_'
+      return !(filter :character_name, /#{m}/i).empty?
+    end
+
     def method_missing method, *args, &block
       m, rest = "#{method}".split '_', 2
       if args.count <= 1 && !(result = filter :character_name, /#{m}/i).empty?

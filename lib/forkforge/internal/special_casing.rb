@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative 'internal/monkeypatches'
+require 'forkforge/internal/monkeypatches'
 
 module Forkforge
   module SpecialCasing
@@ -25,26 +25,25 @@ module Forkforge
 
     # filter_code_point '00A0' | filter_uppercase_mapping 0xA0 | ...
     SPECIAL_CASING_FIELDS.each { |method|
-      class_eval %Q{
-        def filter_#{method}(cp, filters = [])
+      define_method("filter_#{method}") { |cp, filters = []|
           return hash[ncp = __to_code_point(cp)].nil? ? \
             nil : [*hash[ncp]].select { |h|
                     filters.inject(true) { |memo, f|
-                      memo &&= h[:#{method}].match f
+                      memo &&= h[method.to_sym].match f
                     }
-                  } || [*hash[ncp]].select { |h| h[:#{method}].vacant? }
-        end
-        def all_#{method}(pattern = nil)
-          pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
-          hash.map { |k, v|
-            [
-              k,
-              v.reject { |vv|
-                pattern.nil? ? vv[:#{method}].vacant? : pattern.match(vv[:#{method}]).nil?
-              }
-            ]
-          }.to_h
-        end
+                  } || [*hash[ncp]].select { |h| h[method.to_sym].vacant? }
+      }
+
+      define_method("all_#{method}") { |pattern = nil|
+        pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
+        hash.map { |k, v|
+          [
+            k,
+            v.reject { |vv|
+              pattern.nil? ? vv[method.to_sym].vacant? : pattern.match(vv[method.to_sym]).nil?
+            }
+          ]
+        }.to_h
       }
     }
 

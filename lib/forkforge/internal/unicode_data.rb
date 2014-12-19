@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require_relative 'internal/unicode_org_file'
-require_relative 'internal/monkeypatches'
-require_relative 'code_point'
-require_relative 'character_decomposition_mapping'
+require 'forkforge/internal/monkeypatches'
+require 'forkforge/internal/unicode_org_file'
+require 'forkforge/internal/code_point'
+require 'forkforge/internal/character_decomposition_mapping'
 
 module Forkforge
   module UnicodeData
@@ -43,15 +43,15 @@ module Forkforge
     # get_code_point '00A0' | get_character_decomposition_mapping 0xA0 | ...
     # all_code_point /00[A-C]\d/ | get_character_decomposition_mapping /00A*/ | ...
     CodePoint::UNICODE_FIELDS.each { |method|
-      class_eval %Q{
-        def get_#{method} cp
-          ncp = __to_code_point cp
-          return hash[ncp] ? hash[ncp][:#{method}] : nil
-        end
-        def all_#{method} pattern = nil
-          pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
-          hash.select { |k, v| pattern.nil? ? !v[:#{method}].vacant? : !pattern.match(v[:#{method}]).nil? }
-        end
+      define_method("get_#{method}") { |cp|
+        ncp = __to_code_point cp
+        return hash[ncp] ? hash[ncp][method.to_sym] : nil
+      }
+      define_method("all_#{method}") { |pattern = nil|
+        pattern = Regexp.new(pattern) unless pattern.nil? || Regexp === pattern
+        hash.select { |k, v|
+          pattern.nil? ? !v[method.to_sym].vacant? : !pattern.match(v[method.to_sym]).nil?
+        }
       }
     }
 
