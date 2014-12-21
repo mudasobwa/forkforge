@@ -9,7 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Alexei Matyushkin"]
   spec.email         = ["am@mudasobwa.ru"]
   spec.summary       = %q{Unicode handling library}
-  spec.description   = %q{Support for UnicodeData.txt as by Consortium}
+  spec.description   = %Q{
+    Pure ruby implementation of Unicode manipulations as by Consortium.
+    Includes: languages-specific uppercase/lowercase, composition, decomposition and more.
+  }
   spec.homepage      = "http://forkforge.com"
   spec.license       = "MIT"
 
