@@ -50,7 +50,8 @@ module Forkforge
     # NB This is not a composition as it is understood by Unicode.Org (love them.)
     def compose s, tag = :font, format = :full
       composed = s.codepoints.map { |cp|
-        (result = Forkforge::UnicodeData::compose_cp(cp, tag)).vacant? ? [Forkforge::UnicodeData::to_codepoint(cp)] : result
+        (result = Forkforge::UnicodeData::compose_cp(cp, tag, format == :full)).vacant? ? \
+          [Forkforge::UnicodeData::to_codepoint(cp)] : result
       }
 
       raise UnicodeException, "AMBIGUITIES FOUND, FIXME FIXME FIXME" \

@@ -16,7 +16,7 @@ class Object
     self.nil? ||
     self.respond_to?(:strip) && self.strip.empty? ||
     self.respond_to?(:zero?) && self.zero? ||
-    Array === self && (self  - [nil]).empty?
+    Array === self && self.compact.empty?
   end
 end
 

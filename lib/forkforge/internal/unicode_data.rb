@@ -13,6 +13,8 @@ module Forkforge
     REMOTE = 'Public/UCD/latest/ucd'
     FILE = 'UnicodeData.txt'
 
+    @cdm = {}
+
     def hash
       i_hash(REMOTE, LOCAL, FILE, CodePoint::UNICODE_FIELDS, false)
     end
@@ -55,10 +57,16 @@ module Forkforge
       }
     }
 
-    def compose_cp cp, tag = :font
-      all_character_decomposition_mapping(/\A#{CharacterDecompositionMapping::Tag.tag(tag).tag}\s+#{__to_code_point cp}\Z/).values.map { |uf|
-        Forkforge::CodePoint.new(uf)
-      }
+    def compose_cp cp, tag = :font, thorough = true
+      cp = __to_code_point cp
+      return Forkforge::CodePoint.new(hash[cp]) unless (t = CharacterDecompositionMapping::Tag.tag(tag)).valid?
+
+      @cdm[tag] = all_character_decomposition_mapping(/#{t.tag}/).values if @cdm[tag].nil?
+      # FIXME Could we distinguish “<wide> 0ABC” and “0A00 0ABC” in more elegant way?
+      lmbd = ->(v) { v[:character_decomposition_mapping] =~ /[^\dA-Fa-f]\s+#{cp}\Z/ }
+      thorough ? \
+        @cdm[tag].select(&lmbd).map { |cp| Forkforge::CodePoint.new(cp) } :
+        Forkforge::CodePoint.new(@cdm[tag].find(&lmbd) || hash[cp])
     end
 
     def decompose_cp cp, tags = []
@@ -68,7 +76,7 @@ module Forkforge
 
       cps = mapping.split ' '
 
-      return normalized if ![*tags].empty? && \
+      return normalized if ![*tags].vacant? && \
         cps.inject(false) { |memo, cp|
           memo || (CharacterDecompositionMapping::Tag::tag?(cp) && ![*tags].include?(CharacterDecompositionMapping::Tag::tag(cp).sym))
         }
