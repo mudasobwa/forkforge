@@ -15,23 +15,24 @@ Easy UTF-8 strings manipulation.
 Up-/down-casing:
 
 ```ruby
-Forkforge::Unicode::uppercase 'istanbul'
+require 'forgkforge'
+require 'forgkforge/knife/string'
+
+'istanbul'.uppercase
 #⇒ ISTANBUL
-Forkforge::Unicode::uppercase 'istanbul', 'tr'
+'istanbul'.uppercase 'tr'
 #⇒ İSTANBUL
 Forkforge::UnicodeData::code_points.math 'abc'
+#⇒ Instance of CodePoints, a hash
+"#{Forkforge::UnicodeData::code_points.math 'abc'}"
 #⇒ 𝐚𝐛𝐜𝑎𝑏𝑐𝒂𝒃𝒄𝒶𝒷𝒸𝓪𝓫𝓬𝔞𝔟𝔠𝕒𝕓𝕔𝖆𝖇𝖈𝖺𝖻𝖼𝗮𝗯𝗰𝘢𝘣𝘤𝙖𝙗𝙘𝚊𝚋𝚌
-Forkforge::UnicodeData::code_points.math.franktur.bold 'abc'
+(Forkforge::UnicodeData::code_points.math.franktur.bold 'abc').to_s
 #⇒ 𝖆𝖇𝖈
-Forkforge::UnicodeData::code_points.franktur_math_bold 'abc'
+"#{Forkforge::UnicodeData::code_points.franktur_math_bold 'abc'}"
 #⇒ 𝖆𝖇𝖈
-Forkforge::UnicodeData::compose('1'.codepoints.first, :circle).values.map { |v|
-  Forkforge::CodePoint.new(v).to_s
-}.join
+'1'.compose_circle
 #⇒ ①
 ```
-
-The handy methods like `String#compose` and `String#franktur_math` are pending.
 
 ---
 

@@ -20,7 +20,7 @@ module Forkforge
     end
 
     def code_points
-      CodePoints.new hash
+      @codepoints ||= CodePoints.new hash
     end
 
     def info cp
