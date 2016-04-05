@@ -23,13 +23,13 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@letter
   Scenario: Get all specific letter: uppercase
     When we call "uppercase" method on Forkforge::Letter
-    Then the result count equals to 1490
+    Then the result count equals to 1631
      And the first item equals to "A"
 
 	@letter
 	Scenario: Get all specific letter: lowercase
 		When we call "lowercase" method on Forkforge::Letter
-		Then the result count equals to 1841
+		Then the result count equals to 1984
 		 And the first item equals to "a"
 
 	@letter
@@ -47,7 +47,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@letter
 	Scenario: Get all specific letter: others
 		When we call "other" method on Forkforge::Letter
-		Then the result count equals to 13350
+		Then the result count equals to 14163
 		 And the first item equals to "ª"
 
 	@letter
@@ -60,13 +60,13 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@mark
 	Scenario: Get all specific marks: non-spacing
 		When we call "non_spacing" method on Forkforge::Mark
-		Then the result count equals to 1418
+		Then the result count equals to 1567
 		 And the first item equals to "̀"
 
 	@mark
 	Scenario: Get all specific marks: spacing combining
 		When we call "spacing_combining" method on Forkforge::Mark
-		Then the result count equals to 399
+		Then the result count equals to 383
 		 And the first item equals to "ः"
 
 	@mark
@@ -80,7 +80,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@number
 	Scenario: Get all specific numbers: decimal digit
 		When we call "decimal_digit" method on Forkforge::Number
-		Then the result count equals to 540
+		Then the result count equals to 550
 		 And the first item equals to "0"
 
 	@number
@@ -92,7 +92,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@number
 	Scenario: Get all specific numbers: other
 		When we call "other" method on Forkforge::Number
-		Then the result count equals to 570
+		Then the result count equals to 647
 		 And the first item equals to "²"
 
 ###############################################################################
@@ -136,7 +136,7 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@punctuation
 	Scenario: Get all specific punctuation: others
 		When we call "other" method on Forkforge::Punctuation
-		Then the result count equals to 484
+		Then the result count equals to 513
 		 And the first item equals to "!"
 
 ###############################################################################
@@ -150,19 +150,19 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	@symbol
 	Scenario: Get all specific symbols: currency
 		When we call "currency" method on Forkforge::Symbol
-		Then the result count equals to 52
+		Then the result count equals to 53
 		 And the first item equals to "$"
 
 	@symbol
 	Scenario: Get all specific symbols: modifier
 		When we call "modifier" method on Forkforge::Symbol
-		Then the result count equals to 116
+		Then the result count equals to 121
 		 And the first item equals to "^"
 
 	@symbol
 	Scenario: Get all specific symbols: other
 		When we call "other" method on Forkforge::Symbol
-		Then the result count equals to 5082
+		Then the result count equals to 5677
 		 And the first item equals to "¦"
 
 ###############################################################################
@@ -303,14 +303,14 @@ Feature: UnicodeData.txt file is to be used locally until it’s absent
 	Scenario: Lookup tag names using character_name
 	  Given we have a pattern looking like a tag
 	   When result is filtered to show tags
-		 Then the result count equals to 25
+		 Then the result count equals to 27
 	    And we print first 21 results
 
 	@lookup
 	Scenario: Lookup tags using character_name
 	  Given we have a pattern looking like a tag
 	   When result is filtered to show tagged characters
-		 Then the result count equals to 25
+		 Then the result count equals to 27
 	    And the result’s first element nested count is "65"
 
 	@lookup
