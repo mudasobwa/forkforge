@@ -24,12 +24,7 @@ class String
     }
   }
 
-  def upcase
-    uppercase
-  end
-
-  def downcase
-    lowercase
-  end
+  alias_method :upcase, :uppercase
+  alias_method :downcase, :lowercase
 
 end
