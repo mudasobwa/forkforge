@@ -8,7 +8,7 @@ class String
     Forkforge::Unicode::decompose self, tags
   end
 
-  [:circle, :super, :sub, :wide].each { |m|
+  [:circle, :super, :sub, :wide, :fraktur].each { |m|
     class_eval %Q{
       def compose_#{m}
         Forkforge::Unicode::#{m} self

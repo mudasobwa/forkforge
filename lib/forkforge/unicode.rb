@@ -71,6 +71,12 @@ module Forkforge
       }
     }
 
+    def fraktur s
+      s.split('').map do |c|
+        Forkforge::UnicodeData::code_points.send(:math_fraktur_bold, c).to_s
+      end.join
+    end
+
     # Decomposes symbols to their combined representation, e.g. ASCII c-cedilla to 2 symbols
     def decompose s, tags = []
       s.codepoints.map { |cp|

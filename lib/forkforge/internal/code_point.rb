@@ -73,6 +73,7 @@ module Forkforge
     def to_h
       @hash.dup
     end
+    alias_method :to_hash, :to_h
 
     def to_s
       @hash.values.map { |v|
@@ -104,6 +105,9 @@ module Forkforge
       else
         super
       end
+    rescue => e
+      # Log it!
+      self
     end
   end
 end
