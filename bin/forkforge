@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'forkforge'
+require 'forkforge/knife/string'
+
+ME = File.basename($0)
+
+raise "Please do not call this file directly, use e.g. “fraktur 'My String'”" if ME == 'forkforge'
+raise "Usage: “#{ME} string”" unless ARGV.count > 0
+
+puts Forkforge::Unicode.send ME, ARGV[0]
